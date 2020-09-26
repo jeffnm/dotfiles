@@ -25,8 +25,6 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'elzr/vim-json'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
-
-
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
@@ -39,8 +37,8 @@ if has('mouse_sgr')
 endif
 
 syntax on
-"colorscheme desert
-colorscheme gruvbox
+colorscheme desert
+"colorscheme gruvbox
 
 set encoding=UTF-8
 set nocompatible
