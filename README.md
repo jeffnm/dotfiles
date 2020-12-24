@@ -17,3 +17,11 @@ Uses oh-my-zsh and antigen
 ### .tmux.conf
 
 Remaps the prefix and use vi mode. Uses TMUX plugin manager. 
+
+## Configurations for Linux
+
+* i3
+* xmonad
+* xmobar
+
+
