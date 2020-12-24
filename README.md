@@ -12,7 +12,7 @@ Uses VimPlug for plugin manager
 
 ### .zshrc
 
-Uses oh-my-zsh and antigen 
+Uses oh-my-zsh and zinit
 
 ### .tmux.conf
 
