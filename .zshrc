@@ -1,53 +1,151 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# -*- mode: sh -*-
+#
+# .zshrc is sourced in interactive shells.
+# It should contain commands to set up aliases,
+# functions, options, key bindings, etc.
+#
 
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+autoload -U compinit
+compinit
 
-# Antigen Source
-source ~/antigen.zsh
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+## keep background processes at full speed
+#setopt NOBGNICE
+## restart running processes on exit
+#setopt HUP
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh)
-antigen bundle git
-antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle zsh-users/zsh-completions
-antigen bundle z
-antigen bundle zsh-users/zsh-autosuggestions
+## history
+setopt APPEND_HISTORY
+## for sharing history between zsh processes
+setopt INC_APPEND_HISTORY
+# setopt SHARE_HISTORY
+unsetopt SHARE_HISTORY
 
-# Syntax highlighting bundle.
-antigen bundle zdharma/fast-syntax-highlighting
+## never ever beep ever
+#setopt NO_BEEP
 
-# Load the theme.
-antigen theme https://github.com/denysdovhan/spaceship-prompt spaceship
+## automatically decide when to page a list of completions
+#LISTMAX=0
 
-# Tell Antigen that you're done.
-antigen apply
+## disable mail checking
+MAILCHECK=0
 
-# spaceship theme customization options
+# autoload -U colors
+autoload -U colors
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
+export HISTFILE=~/.zsh_history
+export XDG_DATA_HOME=~/.local/share/
+
+setopt promptsubst
+
+zinit snippet OMZL::git.zsh
+
+omz_libraries=(
+    prompt_info_functions.zsh
+    key-bindings.zsh
+    history.zsh
+    completion.zsh
+)
+for library in ${omz_libraries[@]}; do
+    zinit snippet OMZL::$library
+    done
+
+omz_plugins=(
+    #autojump # Needs autojump installed
+    # colorize # alternatively, install source-highlight and modify less...
+    common-aliases
+    command-not-found # Needs command-not-found installed
+    git
+)
+for plugin in ${omz_plugins[@]}; do
+    # zinit snippet OMZ::plugins/$plugin/$plugin.plugin.zsh
+    zinit snippet OMZP::$plugin
+    done
+
+# Two regular plugins loaded without investigating.
+# Fish-like autosuggestions
+zinit light zsh-users/zsh-autosuggestions
+# Colourful commands
+zinit light zdharma/fast-syntax-highlighting
+
+# Plugin history-search-multi-word loaded with investigating.
+zinit load zdharma/history-search-multi-word
+zinit load zsh-users/zsh-history-substring-search
+
+
+# Extra zsh completions
+zinit light zsh-users/zsh-completions
+# Frequency match jump to dir
+zinit load agkozak/zsh-z
+
+# Theme blocks
+#
+# Spaceship Prompt Theme block
+zinit light denysdovhan/spaceship-prompt
+
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_VI_MODE_SHOW=true
 
+# Bullet Train Block
+#zinit light caiogondim/bullet-train-oh-my-zsh-theme 
 
-# vim mode config
-# ---------------
+#bullet train vim customizations
+#function zle-line-init zle-keymap-select {
+#    case ${KEYMAP} in
+#        (vicmd)      BULLETTRAIN_PROMPT_CHAR="[N]$" ;;
+#        (main|viins) BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
+#        (*)          BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
+#    esac
+#    zle reset-prompt
+#}
 
-# Activate vim mode.
+#zle -N zle-line-init
+#zle -N zle-keymap-select
+
+# Set up NVM
+zinit ice wait"1" lucid
+zinit light lukechilds/zsh-nvm
+zinit light lukechilds/zsh-better-npm-completion
+
+# Load rbenv automatically by appending
+# the following to ~/.zshrc:
+#eval "$(rbenv init -)"
+
+# Syntax Highlighting with less (must install source-highlight)
+export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS=' -NR '
+
+#activate vim mode
 bindkey -v
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
+#bindkey "^R" history-incremental-search-backward
+bindkey "^R" history-search-multi-word
 
-# Remove mode switching delay.
-KEYTIMEOUT=1
-
-# Deno completions
-#source /usr/local/etc/zsh_completion.d/deno.zsh
-
-alias st=/usr/local/bin/sublime
-alias -s php=sublime
-
-
-
-export PATH="/usr/local/sbin:$PATH"
+alias l='/bin/ls -alfh'
+alias st=sublime
