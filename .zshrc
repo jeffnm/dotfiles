@@ -1,21 +1,11 @@
-# -*- mode: sh -*-
-#
-# .zshrc is sourced in interactive shells.
-# It should contain commands to set up aliases,
-# functions, options, key bindings, etc.
-#
+# ZSH config
 
+# Load Compinit for completion support
 autoload -U compinit
 compinit
 
-#allow tab completion in the middle of a word
+# allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
-
-## keep background processes at full speed
-#setopt NOBGNICE
-## restart running processes on exit
-#setopt HUP
-
 ## history
 setopt APPEND_HISTORY
 ## for sharing history between zsh processes
@@ -34,7 +24,7 @@ MAILCHECK=0
 
 # autoload -U colors
 autoload -U colors
-#allow tab completion in the middle of a word
+# allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
 
 ### Added by Zinit's installer
@@ -77,25 +67,24 @@ for library in ${omz_libraries[@]}; do
     zinit snippet OMZL::$library
     done
 
+# list of omzsh plugins to enable
 omz_plugins=(
-    #autojump # Needs autojump installed
-    # colorize # alternatively, install source-highlight and modify less...
     common-aliases
     command-not-found # Needs command-not-found installed
     git
 )
+# load the omzsh plugins
 for plugin in ${omz_plugins[@]}; do
     # zinit snippet OMZ::plugins/$plugin/$plugin.plugin.zsh
     zinit snippet OMZP::$plugin
     done
 
-# Two regular plugins loaded without investigating.
 # Fish-like autosuggestions
 zinit light zsh-users/zsh-autosuggestions
 # Colourful commands
 zinit light zdharma/fast-syntax-highlighting
 
-# Plugin history-search-multi-word loaded with investigating.
+# Plugin history-search-multi-word
 zinit load zdharma/history-search-multi-word
 zinit load zsh-users/zsh-history-substring-search
 
@@ -116,18 +105,18 @@ SPACESHIP_VI_MODE_SHOW=true
 # Bullet Train Block
 #zinit light caiogondim/bullet-train-oh-my-zsh-theme 
 
-#bullet train vim customizations
-#function zle-line-init zle-keymap-select {
-#    case ${KEYMAP} in
-#        (vicmd)      BULLETTRAIN_PROMPT_CHAR="[N]$" ;;
-#        (main|viins) BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
-#        (*)          BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
-#    esac
-#    zle reset-prompt
-#}
+#bullet train vi mode customizations
+function zle-line-init zle-keymap-select {
+    case ${KEYMAP} in
+        (vicmd)      BULLETTRAIN_PROMPT_CHAR="[N]$" ;;
+        (main|viins) BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
+        (*)          BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
+    esac
+    zle reset-prompt
+}
 
-#zle -N zle-line-init
-#zle -N zle-keymap-select
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 # Set up NVM
 zinit ice wait"1" lucid
@@ -147,5 +136,5 @@ bindkey -v
 #bindkey "^R" history-incremental-search-backward
 bindkey "^R" history-search-multi-word
 
-alias l='/bin/ls -alfh'
 alias st=sublime
+alias l='/bin/ls -alFh'
