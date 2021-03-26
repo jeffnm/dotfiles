@@ -23,5 +23,6 @@ Remaps the prefix and use vi mode. Uses TMUX plugin manager.
 * i3
 * xmonad
 * xmobar
+* polybar
 
 
