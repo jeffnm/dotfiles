@@ -16,6 +16,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ToggleLayouts
+import XMonad.Layout.ThreeColumns
 import XMonad.Operations
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
@@ -24,43 +25,48 @@ import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 
 main = do
-  xmproc <- spawnPipe ("xmobar ~/.config/xmobar/right -d") 
-  xmproc <- spawnPipe ("xmobar ~/.config/xmobar/left -d") 
+  --xmproc <- spawnPipe ("xmobar ~/.config/xmobar/right -d") 
+  --xmproc <- spawnPipe ("xmobar ~/.config/xmobar/left -d") 
+  --xmproc <- spawnPipe ("polybar -c ~/.config/polybar/config bar1") 
+  --xmproc <- spawnPipe ("polybar -c ~/.config/polybar/config bar2") 
+  --xmproc <- spawnPipe ("`/home/jeffrey/.config/polybar/scripts/init-polybar.sh`")
   xmonad $ ewmh defaultConfig
     { terminal      = myTerminal
     , modMask       = myModMask
     , borderWidth   = myBorderWidth
     , layoutHook    = myLayout
-    , logHook       = myLogHook xmproc
+    --, logHook       = myLogHook 
     , manageHook    = insertPosition Master Newer <+> myManageHook <+> manageDocks <+> manageHook defaultConfig <+> namedScratchpadManageHook myScratchPads <+> myGameHook
     , startupHook   = myStartupHook
     , workspaces    = myWorkspaces
+    , normalBorderColor = "#1a1d26"
+    , focusedBorderColor = "#552255"
     , handleEventHook = docksEventHook
     }
-    `additionalKeys` myKeys
+    `additionalKeys` myKeyBindings
 
 -- Major Variables
-myTerminal    = "xfce4-terminal"
+--myTerminal    = "xfce4-terminal"
+myTerminal    = "alacritty"
 myModMask     = mod4Mask -- Super_L
 myBorderWidth = 2
 myBrowser     = "firefox"
 
 -- Color Variables
-xmobarTitleColor = "#22CCDD"
+xmobarTitleColor = "#00CCDD"
 xmobarCurrentWorkspaceColor = "#CEFFAC"
 
 -- My Key Bindings
-myKeys = [
+myKeyBindings = [
   -- APPLICATION SHORTCUTS
   -- Open Terminal (either in dedicated workspace or in scratchpad)
     ((myModMask .|. shiftMask, xK_Return), (spawnToWorkspace myTerminal wsp1 ))
   , ((myModMask, xK_Return), (namedScratchpadAction myScratchPads "terminal"))
   -- Open Browser
-  , ((myModMask, xK_b), (spawn myBrowser))
+
+  , ((myModMask, xK_b), (spawnToWorkspace myBrowser wsp2 ))
 
   -- WINDOW/LAYOUT MANAGEMENT
-  -- Close Focused Window
-  , ((myModMask, xK_c), (kill))
   -- Fullscreen focused window
   , ((myModMask, xK_f), (chooseLayout "Full"))
   ,  ((myModMask .|. shiftMask, xK_f), (chooseLayout "Spacing Tall"))
@@ -79,6 +85,7 @@ myKeys = [
   -- Volume
   , ((0, 0x1008FF13), (spawn "exe=`amixer -D pulse sset Master 5%+`"))
   , ((0, 0x1008ff11), (spawn "exe=`amixer -D pulse sset Master 5%-`"))
+  , ((0, 0x1008FF12), (spawn "exe=`amixer -D pulse sset Master toggle`"))
   , ((myModMask, 0x1008FF13), (spawn "exe=`amixer -D pulse sset Master 1%+`"))
   , ((myModMask, 0x1008ff11), (spawn "exe=`amixer -D pulse sset Master 1%-`"))
 
@@ -139,7 +146,7 @@ myWorkspaces = [wsp1, wsp2, wsp3, wsp4, wsp5, wsp6, wsp7, wsp8, wsp9] ++ (map sn
 -- My ScratchPads
 myScratchPads = [NS "terminal" spawnTerm findTerm manageTerm]
   where
-    spawnTerm = myTerminal ++ " -T scratchpad"
+    spawnTerm = myTerminal ++ " -t scratchpad"
     findTerm = title =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
       where
@@ -151,7 +158,7 @@ myScratchPads = [NS "terminal" spawnTerm findTerm manageTerm]
 --
 --Custom Layouts
 --
-myLayout = avoidStruts (standardLayouts) LC.||| fullscreen
+myLayout = avoidStruts (standardLayouts LC.||| myTab) LC.||| fullscreen 
   where
     -- Percent of screen to increment by when resizing panes
     delta = 3 / 100
@@ -166,19 +173,23 @@ myLayout = avoidStruts (standardLayouts) LC.||| fullscreen
     myTabConfig =
       def
         { fontName = "xft:DDroid Sans Regular:size=10"
+        , activeColor = "#552255"
         }
 
     -- Spacing/gaps
     mySpacing = spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True
 
     -- Layouts
-    standardLayouts = smartBorders $ (tiled LC.||| Mirror tiled LC.||| myTab)
+    standardLayouts = smartBorders $ (tiled LC.||| Mirror tiled LC.|||  threeLeft LC.|||  threeCenter) 
 
     fullscreen = noBorders (fullscreenFull Full)
     -- default tiling algorithm partitions the screen into two panes
     tiled = mySpacing $ (Tall nmaster delta ratio)
     -- tabbed algorithm with tabs at the top
-    myTab = tabbed shrinkText myTabConfig
+    myTab = noBorders (tabbed shrinkText myTabConfig)
+    -- three column algorithm
+    threeLeft = mySpacing $ (ThreeCol nmaster delta ratio)
+    threeCenter = mySpacing $ (ThreeColMid nmaster delta ratio)
 
 --
 --Custom Hooks
@@ -186,24 +197,25 @@ myLayout = avoidStruts (standardLayouts) LC.||| fullscreen
 
 -- Log Hooks
 -- Make window and workspace info available to xmobar
-myLogHook h =
-  dynamicLogWithPP $
-    xmobarPP
-      { ppOutput = hPutStrLn h,
-        ppTitle = xmobarColor xmobarTitleColor "" . shorten 100,
-        ppCurrent = xmobarColor xmobarCurrentWorkspaceColor "",
-        ppSep = "   "
-      }
+--myLogHook h =
+--  dynamicLogWithPP $
+--    xmobarPP
+--      { ppOutput = hPutStrLn h,
+--        ppTitle = xmobarColor xmobarTitleColor "" . shorten 100,
+--        ppCurrent = xmobarColor xmobarCurrentWorkspaceColor "",
+--        ppSep = "   "
+--      }
 
 -- Manage Hooks
 myManageHook =
   composeAll . concat $
     [ -- Assign Applications to Workspaces
-      [className =? "firefox" --> doShift wsp2],
+      --[className =? "firefox" --> doShift wsp2],
       [className =? "Steam" --> doShift wsp3],
       [className =? "Sublime_text" --> doShift wsp4],
       [className =? "code-oss" --> doShift wsp4],
       [className =? "Lollypop" --> doShift wsp5],
+      [className =? "Audacious" --> doShift wsp5],
       [className =? "Signal" --> doShift wsp6],
       [className =? "discord" --> doShift wsp6],
       [className =? "Sublime_merge" --> doShift wsp7],
@@ -216,6 +228,7 @@ myManageHook =
     ] 
 
 -- Game Hooks 
+-- I'm unsure if I still want this, but it's an attempt to push games into a specific workspace and full screen float it to avoid the compositor (should be avoided by EWMH anyway, but it wasn't working). 
 myGameHook = 
         composeAll . concat $
         [
@@ -229,10 +242,11 @@ myGameHook =
 myStartupHook = do
   --spawn "exe=`xcompmgr -c`"
   spawn "exe=`picom -cC`"
-  spawn "exe=`/home/jeffrey/.screenlayout/TwoWorkMonitors.sh`"
-  spawnOnce (myTerminal ++ " -T htop -e htop")
-  spawnOnce (myTerminal ++ " -T s-tui -e s-tui")
-  spawnOnce (myTerminal ++ " -T neofetch -e neofetch --hold")
+  --spawn "exe=`/home/jeffrey/.screenlayout/TwoWorkMonitors.sh`"
+  spawn "exe=`/home/jeffrey/.config/polybar/scripts/init-polybar.sh`"
+  --spawnOnce (myTerminal ++ " -T htop -e htop")
+  --spawnOnce (myTerminal ++ " -T s-tui -e s-tui")
+  --spawnOnce (myTerminal ++ " -T neofetch -e neofetch --hold")
   docksStartupHook <+> startupHook defaultConfig
 
 --
