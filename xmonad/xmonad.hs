@@ -244,6 +244,7 @@ myStartupHook = do
   spawn "exe=`picom -cC`"
   --spawn "exe=`/home/jeffrey/.screenlayout/TwoWorkMonitors.sh`"
   spawn "exe=`/home/jeffrey/.config/polybar/scripts/init-polybar.sh`"
+  spawn "exe=`nitrogen --restore`"
   --spawnOnce (myTerminal ++ " -T htop -e htop")
   --spawnOnce (myTerminal ++ " -T s-tui -e s-tui")
   --spawnOnce (myTerminal ++ " -T neofetch -e neofetch --hold")
