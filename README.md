@@ -20,9 +20,14 @@ Remaps the prefix and use vi mode. Uses TMUX plugin manager.
 
 ## Configurations for Linux
 
+### Window Managers
 * i3
 * xmonad
+* hyprland (in hypr/)
+
+### Status Bars
 * xmobar
 * polybar
+* waybar
 
-
+ 
