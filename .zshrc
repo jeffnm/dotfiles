@@ -1,11 +1,128 @@
+# Start configuration added by Zim install {{{
+#
+# User configuration sourced by interactive shells
+#
+
+# -----------------
+# Zsh configuration
+# -----------------
+
+# Prompt for spelling correction of commands.
+#setopt CORRECT
+
+# Customize spelling correction prompt.
+#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
+
+# -----------------
+# Zim configuration
+# -----------------
+
+# Use degit instead of git as the default tool to install and update modules.
+#zstyle ':zim:zmodule' use 'degit'
+
+# --------------------
+# Module configuration
+# --------------------
+
+#
+# git
+#
+
+# Set a custom prefix for the generated aliases. The default prefix is 'G'.
+#zstyle ':zim:git' aliases-prefix 'g'
+
+#
+# input
+#
+
+# Append `../` to your input for each `.` you type after an initial `..`
+#zstyle ':zim:input' double-dot-expand yes
+
+#
+# termtitle
+#
+
+# Set a custom terminal title format using prompt expansion escape sequences.
+# See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
+# If none is provided, the default '%n@%m: %~' is used.
+zstyle ':zim:termtitle' format '%1~'
+
+#
+# zsh-autosuggestions
+#
+
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# Customize the style that the suggestions are shown with.
+# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+
+#
+# zsh-syntax-highlighting
+#
+
+# Set what highlighters will be used.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# Customize the main highlighter styles.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
+#typeset -A ZSH_HIGHLIGHT_STYLES
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
+
+# ------------------
+# Initialize modules
+# ------------------
+
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+
+# ------------------------------
+# Post-init module configuration
+# ------------------------------
+
+#
+# zsh-history-substring-search
+#
+
+zmodload -F zsh/terminfo +p:terminfo
+# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+unset key
+# }}} End configuration added by Zim install
+
 # ZSH config
 
-# Load Compinit for completion support
-autoload -U compinit
-compinit
+# Load Compinit for completion support - do not enable since zim's completion module is handling this now 
+#autoload -U compinit
+#compinit
 
 # allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
+
 ## history
 setopt APPEND_HISTORY
 ## for sharing history between zsh processes
@@ -27,114 +144,22 @@ autoload -U colors
 # allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
-
-### End of Zinit's installer chunk
-
 export HISTFILE=~/.zsh_history
 export XDG_DATA_HOME=~/.local/share/
 
 setopt promptsubst
 
-zinit snippet OMZL::git.zsh
-
-omz_libraries=(
-    prompt_info_functions.zsh
-    key-bindings.zsh
-    history.zsh
-    completion.zsh
-)
-for library in ${omz_libraries[@]}; do
-    zinit snippet OMZL::$library
-    done
-
-# list of omzsh plugins to enable
-omz_plugins=(
-    common-aliases
-    command-not-found # Needs command-not-found installed
-    git
-)
-# load the omzsh plugins
-for plugin in ${omz_plugins[@]}; do
-    # zinit snippet OMZ::plugins/$plugin/$plugin.plugin.zsh
-    zinit snippet OMZP::$plugin
-    done
-
-# Fish-like autosuggestions
-zinit light zsh-users/zsh-autosuggestions
-# Colourful commands
-zinit light zdharma/fast-syntax-highlighting
-
-# Plugin history-search-multi-word
-zinit load zdharma/history-search-multi-word
-zinit load zsh-users/zsh-history-substring-search
-
-
-# Extra zsh completions
-zinit light zsh-users/zsh-completions
-# Frequency match jump to dir
-zinit load agkozak/zsh-z
-
-# Theme blocks
+# Load pyenv
 #
-# Spaceship Prompt Theme block
-zinit light denysdovhan/spaceship-prompt
-
-SPACESHIP_TIME_SHOW=true
-SPACESHIP_VI_MODE_SHOW=true
-
-# Bullet Train Block
-#zinit light caiogondim/bullet-train-oh-my-zsh-theme 
-
-#bullet train vi mode customizations
-function zle-line-init zle-keymap-select {
-    case ${KEYMAP} in
-        (vicmd)      BULLETTRAIN_PROMPT_CHAR="[N]$" ;;
-        (main|viins) BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
-        (*)          BULLETTRAIN_PROMPT_CHAR="[I]$" ;;
-    esac
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-
-# Set up NVM
-zinit ice wait"1" lucid
-zinit light lukechilds/zsh-nvm
-zinit light lukechilds/zsh-better-npm-completion
-
-# Load rbenv automatically by appending
-# the following to ~/.zshrc:
-#eval "$(rbenv init -)"
-
-# Syntax Highlighting with less (must install source-highlight)
-export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
-export LESS=' -NR '
+eval "$(pyenv init -)"
 
 #activate vim mode
 bindkey -v
-#bindkey "^R" history-incremental-search-backward
 bindkey "^R" history-search-multi-word
 
-alias st=sublime
+#alias st=sublime
 alias l='/bin/ls -alFh'
+
+# MacOS specific iTerm2 integration
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
