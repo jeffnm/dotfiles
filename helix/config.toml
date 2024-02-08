@@ -2,7 +2,8 @@ theme = "monokai_pro"
 
 [editor]
 line-number = "relative"
-gutters = ["diagnostics", "line-numbers", "spacer"]
+bufferline = "multiple"
+#gutters = ["diagnostics", "line-numbers", "spacer"]
 
 [editor.cursor-shape]
 insert = "bar"
@@ -11,6 +12,17 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-encoding"] 
+center = ["version-control"]
+
+[editor.soft-wrap]
+enable = true
+
+[editor.lsp]
+display-inlay-hints = true
+display-messages = true
 
 [keys.normal]
 esc = ["collapse_selection", "keep_primary_selection"]
