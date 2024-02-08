@@ -5,6 +5,7 @@
 * .vimrc
 * .zshrc
 * .tmux.conf
+* helix/config.toml
 
 ### .vimrc
 
@@ -18,6 +19,11 @@ Uses oh-my-zsh and zinit
 
 Remaps the prefix and use vi mode. Uses TMUX plugin manager. 
 
+### Helix Editor
+Config for Helix editor
+
+Custom language.toml file not included because that's very system dependent. 
+
 ## Configurations for Linux
 
 ### Window Managers
@@ -30,4 +36,3 @@ Remaps the prefix and use vi mode. Uses TMUX plugin manager.
 * polybar
 * waybar
 
- 
