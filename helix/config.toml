@@ -2,8 +2,8 @@ theme = "monokai_pro"
 
 [editor]
 line-number = "relative"
+gutters = ["diagnostics", "line-numbers", "spacer", "diff"]
 bufferline = "multiple"
-#gutters = ["diagnostics", "line-numbers", "spacer"]
 
 [editor.cursor-shape]
 insert = "bar"
