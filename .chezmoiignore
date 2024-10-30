@@ -2,6 +2,12 @@
 **
 # explicitly enable files that we've converted/validated
 !.config/
+# Helix
 !.config/helix
 !.config/helix/config.toml
+# Hypr
+!.config/hypr/
+!.config/hypr/hyprland.conf
+!.config/hypr/
+!.config/hypr/
 
