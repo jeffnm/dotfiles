@@ -3,6 +3,9 @@
 # explicitly enable files that we've converted/validated
 !.chezmoitemplates/
 !.config/
+# Alacritty
+!.config/alacritty/
+!.config/alacritty/alacritty.toml
 # Helix
 !.config/helix
 !.config/helix/config.toml
