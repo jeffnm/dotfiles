@@ -11,5 +11,7 @@
 !.config/hypr/mocha.conf
 !.config/hypr/hyprlock.conf
 !.config/hypr/hyprpaper.conf
+# Zsh
+!.zshrc
 
 

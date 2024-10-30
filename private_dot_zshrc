@@ -7,6 +7,20 @@
 # Zsh configuration
 # -----------------
 
+#
+# History
+#
+
+# Remove older command from the history if a duplicate is to be added.
+setopt HIST_IGNORE_ALL_DUPS
+
+#
+# Input/output
+#
+
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+bindkey -e
+
 # Prompt for spelling correction of commands.
 #setopt CORRECT
 
@@ -48,7 +62,7 @@ WORDCHARS=${WORDCHARS//[\/]}
 # Set a custom terminal title format using prompt expansion escape sequences.
 # See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
 # If none is provided, the default '%n@%m: %~' is used.
-zstyle ':zim:termtitle' format '%1~'
+#zstyle ':zim:termtitle' format '%1~'
 
 #
 # zsh-autosuggestions
@@ -60,7 +74,7 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 # Customize the style that the suggestions are shown with.
 # See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
 #
 # zsh-syntax-highlighting
@@ -114,14 +128,24 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
-# ZSH config
+# -*- mode: sh -*-
+#
+# .zshrc is sourced in interactive shells.
+# It should contain commands to set up aliases,
+# functions, options, key bindings, etc.
+#
+th=(~/.zsh $fpath)
 
-# Load Compinit for completion support - do not enable since zim's completion module is handling this now 
-#autoload -U compinit
-#compinit
+# show last executed command in title
+preexec() { print -Pn "\e]0;$1\a" }
 
-# allow tab completion in the middle of a word
+#allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
+
+## keep background processes at full speed
+#setopt NOBGNICE
+## restart running processes on exit
+#setopt HUP
 
 ## history
 setopt APPEND_HISTORY
@@ -141,25 +165,36 @@ MAILCHECK=0
 
 # autoload -U colors
 autoload -U colors
-# allow tab completion in the middle of a word
+#allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
+
 
 export HISTFILE=~/.zsh_history
 export XDG_DATA_HOME=~/.local/share/
 
 setopt promptsubst
 
-# Load pyenv
-#
-eval "$(pyenv init -)"
+
+
+# Syntax Highlighting with less (must install source-highlight)
+export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS=' -NR '
+
+# SUDOEDIT editor
+export EDITOR=/usr/bin/helix
 
 #activate vim mode
 bindkey -v
+#bindkey "^R" history-incremental-search-backward
 bindkey "^R" history-search-multi-word
 
-#alias st=sublime
 alias l='/bin/ls -alFh'
+alias st=/opt/sublime_text/sublime_text
+alias hx=/usr/bin/helix
 
-# MacOS specific iTerm2 integration
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# Additional Tools
+eval "$(atuin init zsh)"
+eval "$(zoxide init zsh)"
+# eval "$(zellij setup --generate-completion zsh)"
+eval "$(starship init zsh)"
