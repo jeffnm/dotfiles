@@ -1,0 +1,12 @@
+#if more than one preload is desired then continue to preload other backgrounds
+#preload = /path/to/next_image.png
+# .. more preloads
+preload = {{ .wallpaper1 }}
+preload = {{ .wallpaper2 }}
+
+#set the default wallpaper(s) seen on inital workspace(s) --depending on the number of monitors used
+wallpaper = DP-1,contain:{{ .wallpaper1 }}
+wallpaper = DP-3,contain:{{ .wallpaper2 }}
+
+#disable the splash messages
+splash = false
