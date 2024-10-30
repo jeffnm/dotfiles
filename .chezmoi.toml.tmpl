@@ -1,0 +1,9 @@
+{{ $wallpaper1:= promptString "path to wallpaper one" -}}
+{{ $wallpaper2:= promptString "path to wallpaper two" -}}
+
+    
+[data]
+  wallpaper1 = {{ $wallpaper1 | quote }}
+  wallpaper2 = {{ $wallpaper2 | quote }}
+
+  
