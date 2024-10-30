@@ -1,0 +1,7 @@
+# Ignore all existing files
+**
+# explicitly enable files that we've converted/validated
+!.config/
+!.config/helix
+!.config/helix/config.toml
+
