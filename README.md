@@ -1,5 +1,19 @@
 # dotfiles
 
+
+## WORK IN PROGRESS - chezmoi configuration
+I'm converting this repo to use [chezmoi](https://www.chezmoi.io/) for dotfile management
+
+### Status
+#### Done
+* helix/config.toml
+
+#### ToDo
+* other configs below
+* adopt templating to handle different platforms/installations
+
+## OLD README 
+
 ## Configurations for Linux and MacOS
 
 * .vimrc
