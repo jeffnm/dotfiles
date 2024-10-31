@@ -1,54 +1,39 @@
-# Ignore all existing files
-**
-# explicitly enable files that we've converted/validated
-!.chezmoitemplates/
-!.config/
-# Alacritty
-!.config/alacritty/
-!.config/alacritty/alacritty.toml
-# Helix
-!.config/helix
-!.config/helix/config.toml
+# experiment with explicit ignores
+# chezmoi managed and chezmoi unmaged should cover the need to list items otherwise
+
+# CONDITIONALLY IGNORED FILES
 # Hypr
-{{ if .enableHyprland }}
-!.config/hypr/
-!.config/hypr/hyprland.conf
-!.config/hypr/mocha.conf
-!.config/hypr/hyprlock.conf
-!.config/hypr/hyprpaper.conf
+{{ if not .enableHyprland }}
+.config/hypr/
+.config/hypr/hyprland.conf
+.config/hypr/mocha.conf
+.config/hypr/hyprlock.conf
+.config/hypr/hyprpaper.conf
 {{ end }}
+
 # Waybar
-{{ if .enableWaybar }}
-!.config/waybar
-!.config/waybar/config
-!.config/waybar/config.json
-!.config/waybar/style.css
-!.config/waybar/mediaplayer.py
+{{ if not .enableWaybar }}
+.config/waybar
+.config/waybar/config
+.config/waybar/config.json
+.config/waybar/style.css
+.config/waybar/mediaplayer.py
 {{ end }}
 
 # Wofi
-{{ if .enableWofi }}
-!.config/wofi
-!.config/wofi/config
-!.config/wofi/style.css
+{{ if not .enableWofi }}
+.config/wofi
+.config/wofi/config
+.config/wofi/style.css
 {{ end }}
 
-# Zellij
-!.config/zellij/
-!.config/zellij/config.kdl
-!.config/zellij/layouts/
-!.config/zellij/layouts/*
-
-# Zsh
-!.zshrc
-!.zimrc
-
-# Vim
-!.vimrc
-
-
-
-
+# ALWAYS IGNORED
 # Explicitly ignore xmonad
 xmonad/
 xmonad/*
+
+# Readme
+README.md
+
+#Junk files that I never want
+*.DS_Store
