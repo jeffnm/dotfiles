@@ -15,6 +15,13 @@
 !.config/hypr/mocha.conf
 !.config/hypr/hyprlock.conf
 !.config/hypr/hyprpaper.conf
+#Waybar
+!.config/waybar
+!.config/waybar/config
+!.config/waybar/config.json
+!.config/waybar/style.css
+!.config/waybar/mediaplayer.py
+
 # Zsh
 !.zshrc
 !.zimrc
