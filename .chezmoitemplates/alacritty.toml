@@ -28,11 +28,11 @@ foreground = "#B3B1AD"
 [font]
 size = 16.0
 
-[font.normal]
-family = "Droid Sans Mono for Powerline"
-style = "Regular"
-
-
 [window]
 dynamic_padding = true
-opacity = 0.9
+opacity = 0.8
+padding.x = 10
+padding.y = 10
+decorations = "Buttonless"
+blur = false
+option_as_alt = "Both"

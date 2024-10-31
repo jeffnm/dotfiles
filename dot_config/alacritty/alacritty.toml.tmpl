@@ -1,0 +1,15 @@
+{{- template "alacritty.toml" . -}}
+
+{{- if eq .chezmoi.os "darwin"}}
+[ env ]
+TERM = "xterm-256color"
+
+[font.normal]
+family = "JetBrains Mono"
+
+{{- else -}}
+
+[font.normal]
+family = "Droid Sans Mono for Powerline"
+style = "Regular"
+{{- end -}}
