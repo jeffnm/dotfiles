@@ -1,9 +1,34 @@
-{{ $wallpaper1:= promptString "path to wallpaper one" -}}
-{{ $wallpaper2:= promptString "path to wallpaper two" -}}
+# chezmoi configuration data
 
-    
+{{- $enableHyprland := false }}
+{{- $enableWofi := false }}
+{{- $enableWaybar := false }}
+
+#APPLE
+{{if eq .chezmoi.os "darwin"}}
+  {{- $enableHyprland := false}}
+[data]
+  enableHyprland = {{ $enableHyprland }}
+  enableWofi = {{ $enableWofi }}
+  enableWaybar = {{ $enableWaybar}}
+
+#LINUX
+{{- else if eq .chezmoi.os "linux" -}}
+
+  {{ $enableHyprland := true }}
+  {{ $enableWofi := true }}
+  {{ $enableWaybar := true }}
+  {{ $wallpaper1:= promptString "path to wallpaper one" -}}
+  {{ $wallpaper2:= promptString "path to wallpaper two" -}}
+
 [data]
   wallpaper1 = {{ $wallpaper1 | quote }}
   wallpaper2 = {{ $wallpaper2 | quote }}
+  enableHyprland = {{ $enableHyprland }}
+  enableWofi = {{ $enableWofi }}
+  enableWaybar = {{ $enableWaybar}}
+
+
+{{- end -}}
 
   

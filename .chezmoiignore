@@ -10,22 +10,28 @@
 !.config/helix
 !.config/helix/config.toml
 # Hypr
+{{ if .enableHyprland }}
 !.config/hypr/
 !.config/hypr/hyprland.conf
 !.config/hypr/mocha.conf
 !.config/hypr/hyprlock.conf
 !.config/hypr/hyprpaper.conf
+{{ end }}
 # Waybar
+{{ if .enableWaybar }}
 !.config/waybar
 !.config/waybar/config
 !.config/waybar/config.json
 !.config/waybar/style.css
 !.config/waybar/mediaplayer.py
+{{ end }}
 
 # Wofi
+{{ if .enableWofi }}
 !.config/wofi
 !.config/wofi/config
 !.config/wofi/style.css
+{{ end }}
 
 # Zellij
 !.config/zellij/
