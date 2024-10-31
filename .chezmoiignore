@@ -15,12 +15,17 @@
 !.config/hypr/mocha.conf
 !.config/hypr/hyprlock.conf
 !.config/hypr/hyprpaper.conf
-#Waybar
+# Waybar
 !.config/waybar
 !.config/waybar/config
 !.config/waybar/config.json
 !.config/waybar/style.css
 !.config/waybar/mediaplayer.py
+
+# Wofi
+!.config/wofi
+!.config/wofi/config
+!.config/wofi/style.css
 
 # Zellij
 !.config/zellij/
