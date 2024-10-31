@@ -108,8 +108,6 @@ fi
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
   source ${ZIM_HOME}/zimfw.zsh init -q
 fi
-# Initialize modules.
-source ${ZIM_HOME}/init.zsh
 
 # ------------------------------
 # Post-init module configuration
@@ -180,16 +178,16 @@ export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 export LESS=' -NR '
 
 # SUDOEDIT editor
-export EDITOR=/usr/bin/helix
+# export EDITOR=/usr/bin/helix
 
 #activate vim mode
 bindkey -v
 #bindkey "^R" history-incremental-search-backward
 bindkey "^R" history-search-multi-word
 
-alias l='/bin/ls -alFh'
-alias st=/opt/sublime_text/sublime_text
-alias hx=/usr/bin/helix
+# alias l='/bin/ls -alFh'
+alias l='ls -alFh'
+# alias st=/opt/sublime_text/sublime_text
 
 
 # Additional Tools
