@@ -4,22 +4,23 @@
 {{- $enableWofi := false }}
 {{- $enableWaybar := false }}
 
+{{- if eq .chezmoi.os "darwin"}}
+
 #APPLE
-{{if eq .chezmoi.os "darwin"}}
   {{- $enableHyprland := false}}
 [data]
   enableHyprland = {{ $enableHyprland }}
   enableWofi = {{ $enableWofi }}
   enableWaybar = {{ $enableWaybar}}
 
-#LINUX
-{{- else if eq .chezmoi.os "linux" -}}
+{{- else if eq .chezmoi.os "linux" }}
 
-  {{ $enableHyprland := true }}
-  {{ $enableWofi := true }}
-  {{ $enableWaybar := true }}
+#LINUX
+  {{- $enableHyprland := true -}}
+  {{ $enableWofi := true -}}
+  {{ $enableWaybar := true -}}
   {{ $wallpaper1:= promptString "path to wallpaper one" -}}
-  {{ $wallpaper2:= promptString "path to wallpaper two" -}}
+  {{ $wallpaper2:= promptString "path to wallpaper two" }}
 
 [data]
   wallpaper1 = {{ $wallpaper1 | quote }}
