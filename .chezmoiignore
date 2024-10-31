@@ -34,3 +34,8 @@
 !.vimrc
 
 
+
+
+# Explicitly ignore xmonad
+xmonad/
+xmonad/*

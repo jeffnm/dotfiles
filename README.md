@@ -9,36 +9,14 @@ I'm converting this repo to use [chezmoi](https://www.chezmoi.io/) for dotfile m
 * helix/config.toml
 * zshrc
 * zimrc
+* vimrc
 * hypr/... 
+* waybar
 
+#### Unmaintained
+I kept a copy of my xmonad config in `xmonad/` since it was the config that hooked me on tiling window managers. Eventually I'll delete it since I'm not going back to x11 again if I can help it.
 
 #### ToDo
-* other configs below - deleting as done
-* adopt templating to handle different platforms/installations
-* delete configs that are no longer used
-
-## OLD README 
-
-## Configurations for Linux and MacOS
-
-* .tmux.conf
-
-### .vimrc
-
-Uses VimPlug for plugin manager
-
-### .tmux.conf
-
-Remaps the prefix and use vi mode. Uses TMUX plugin manager. 
-
-## Configurations for Linux
-
-### Window Managers
-* i3
-* xmonad
-
-### Status Bars
-* xmobar
-* polybar
-* waybar
+* improve templating for different systems
+* find other unmanaged configs that could/should be added from each system
 
