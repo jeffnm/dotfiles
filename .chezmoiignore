@@ -22,6 +22,10 @@
 !.config/waybar/style.css
 !.config/waybar/mediaplayer.py
 
+# Zellij
+!.config/zellij/
+!.config/zellij/config.kdl
+
 # Zsh
 !.zshrc
 !.zimrc
