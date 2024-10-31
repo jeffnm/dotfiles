@@ -30,4 +30,7 @@
 !.zshrc
 !.zimrc
 
+# Vim
+!.vimrc
+
 
