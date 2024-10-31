@@ -1,6 +1,5 @@
 # dotfiles
 
-
 ## WORK IN PROGRESS - chezmoi configuration
 I'm converting this repo to use [chezmoi](https://www.chezmoi.io/) for dotfile management
 
@@ -10,7 +9,7 @@ I'm converting this repo to use [chezmoi](https://www.chezmoi.io/) for dotfile m
 * zshrc
 * zimrc
 * vimrc
-* hypr/... 
+* hypr/...
 * waybar
 * wofi
 
@@ -20,4 +19,3 @@ I kept a copy of my xmonad config in `xmonad/` since it was the config that hook
 #### ToDo
 * improve templating for different systems
 * find other unmanaged configs that could/should be added from each system
-

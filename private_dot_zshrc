@@ -22,10 +22,10 @@ setopt HIST_IGNORE_ALL_DUPS
 bindkey -e
 
 # Prompt for spelling correction of commands.
-#setopt CORRECT
+setopt CORRECT
 
 # Customize spelling correction prompt.
-#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 
 # Remove path separator from WORDCHARS.
 WORDCHARS=${WORDCHARS//[\/]}
@@ -62,7 +62,7 @@ WORDCHARS=${WORDCHARS//[\/]}
 # Set a custom terminal title format using prompt expansion escape sequences.
 # See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
 # If none is provided, the default '%n@%m: %~' is used.
-#zstyle ':zim:termtitle' format '%1~'
+zstyle ':zim:termtitle' format '%1~'
 
 #
 # zsh-autosuggestions
@@ -74,7 +74,7 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 # Customize the style that the suggestions are shown with.
 # See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
-#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
 #
 # zsh-syntax-highlighting
@@ -165,9 +165,8 @@ MAILCHECK=0
 
 # autoload -U colors
 autoload -U colors
-#allow tab completion in the middle of a word
+# allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
-
 
 export HISTFILE=~/.zsh_history
 export XDG_DATA_HOME=~/.local/share/
@@ -194,7 +193,20 @@ alias hx=/usr/bin/helix
 
 
 # Additional Tools
+
+# Load pyenv
+eval "$(pyenv init -)"
+# Load rbenv
+eval "$(rbenv init -)"
+# Load atuin
 eval "$(atuin init zsh)"
 eval "$(zoxide init zsh)"
 # eval "$(zellij setup --generate-completion zsh)"
 eval "$(starship init zsh)"
+
+# gpg keys available
+export GPG_TTY=$(tty)
+
+# Volta (Node switcher)
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
