@@ -107,6 +107,9 @@ fi
 # Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
   source ${ZIM_HOME}/zimfw.zsh init -q
+else
+  # Initialize modules.
+  source ${ZIM_HOME}/init.zsh
 fi
 
 # ------------------------------
@@ -182,13 +185,12 @@ export LESS=' -NR '
 
 #activate vim mode
 bindkey -v
-#bindkey "^R" history-incremental-search-backward
+#bind history search to ctrl-r in case atuin isn't installed
 bindkey "^R" history-search-multi-word
 
-# alias l='/bin/ls -alFh'
+# Aliases
 alias l='ls -alFh'
-# alias st=/opt/sublime_text/sublime_text
-
+alias cm='chezmoi'
 
 # Additional Tools
 
@@ -199,7 +201,6 @@ eval "$(rbenv init -)"
 # Load atuin
 eval "$(atuin init zsh)"
 eval "$(zoxide init zsh)"
-# eval "$(zellij setup --generate-completion zsh)"
 eval "$(starship init zsh)"
 
 # gpg keys available
