@@ -1,8 +1,10 @@
 # chezmoi configuration data
 
+# Default enable flags to false
 {{- $enableHyprland := false }}
 {{- $enableWofi := false }}
 {{- $enableWaybar := false }}
+{{- $enableMako := false }}
 
 {{- if eq .chezmoi.os "darwin"}}
 
@@ -12,6 +14,7 @@
   enableHyprland = {{ $enableHyprland }}
   enableWofi = {{ $enableWofi }}
   enableWaybar = {{ $enableWaybar}}
+  enableMako = {{ $enableMako}}
 
 {{- else if eq .chezmoi.os "linux" }}
 
@@ -19,6 +22,8 @@
   {{- $enableHyprland := true -}}
   {{ $enableWofi := true -}}
   {{ $enableWaybar := true -}}
+  {{ $enableMako := true -}}
+
   {{ $wallpaper1:= promptString "path to wallpaper one" -}}
   {{ $wallpaper2:= promptString "path to wallpaper two" }}
 
@@ -28,6 +33,7 @@
   enableHyprland = {{ $enableHyprland }}
   enableWofi = {{ $enableWofi }}
   enableWaybar = {{ $enableWaybar}}
+  enableMako = {{ $enableMako}}
 
 
 {{- end -}}
