@@ -1,10 +1,18 @@
 # dotfiles
 
-## WORK IN PROGRESS - chezmoi configuration
-I'm converting this repo to use [chezmoi](https://www.chezmoi.io/) for dotfile management
+## Chezmoi
+This repo uses [chezmoi](https://www.chezmoi.io/) for most dotfile management
 
-### Status
-#### Done
+### Deployment
+1. Install chezmoi
+2. Run `chezmoi init git@github.com:jeffnm/dotfiles.git`
+3. Answer any prompts (wallpaper paths for example)
+4. Run `chezmoi status` to see which files will be effected.
+5. Use `chezmoi diff <filename>` when needing to see what the difference between the source and target are. 
+6. If there were issues, then use `chezmoi apply <filename>` or `<chezmoi re-add <filename>` or otherwise resolve the conflict.
+7. If everything is good, run `chezmoi apply` to add all managed files from source. 
+
+## Managed files
 * helix/config.toml
 * zshrc
 * zimrc
