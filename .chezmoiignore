@@ -11,6 +11,13 @@
 .config/hypr/hyprpaper.conf
 {{ end }}
 
+# Mako
+
+{{ if not .enableMako}}
+.config/mako
+.config/mako/config
+{{ end }}
+
 # Waybar
 {{ if not .enableWaybar }}
 .config/waybar
