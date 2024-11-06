@@ -178,7 +178,8 @@ export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 export LESS=' -NR '
 
 # SUDOEDIT editor
-# export EDITOR=/usr/bin/helix
+export EDITOR=hx
+export SUDOEDIT=$EDITOR
 
 #activate vim mode
 bindkey -v
