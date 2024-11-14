@@ -11,6 +11,14 @@
 .config/hypr/hyprpaper.conf
 {{ end }}
 
+# Factorio
+
+{{ if not .enableFactorio}}
+.factorio/
+.factorio/config/
+.factorio/config/config.ini
+{{ end }}
+
 # Mako
 
 {{ if not .enableMako}}
