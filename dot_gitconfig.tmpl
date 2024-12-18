@@ -1,0 +1,26 @@
+[user]
+    name = {{ .gitPersonalName }}
+{{- if eq .chezmoi.os "darwin" }}
+    # Default to personal email on macOS
+    email = {{ .gitPersonalEmail }}
+
+# Work configuration for specific directories
+[includeIf "gitdir:~/Projects/Work/"]
+    path = ~/.gitconfig-work
+{{- else }}
+    # Use personal email on Linux
+    email = {{ .gitPersonalEmail }}
+{{- end }}
+
+[core]
+    editor = hx
+    excludesfile = ~/.gitignore_global
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = false
+
+[push]
+    autoSetupRemote = true

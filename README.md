@@ -13,11 +13,13 @@ This repo uses [chezmoi](https://www.chezmoi.io/) for most dotfile management
 7. If everything is good, run `chezmoi apply` to add all managed files from source. 
 
 ## Managed files
+* alacritty
 * helix/config.toml
 * zshrc
 * zimrc
 * vimrc
 * hypr/...
+* mako
 * waybar
 * wofi
 
@@ -27,4 +29,3 @@ I kept a copy of my xmonad config in `xmonad/` since it was the config that hook
 #### ToDo
 * improve templating for different systems
 * find other unmanaged configs that could/should be added from each system
-  * mako config needs to be added

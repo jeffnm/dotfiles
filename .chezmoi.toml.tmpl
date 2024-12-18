@@ -10,12 +10,20 @@
 
 #MACOS
   {{- $enableHyprland := false}}
+  {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
+  {{- $gitWorkEmail := promptString "Enter your work Git email" -}}
+  {{- $gitPersonalName := promptString "Enter your personal Git name" -}}
+  {{- $gitWorkName := promptString "Enter your work Git name" -}}
 [data]
   enableHyprland = {{ $enableHyprland }}
   enableWofi = {{ $enableWofi }}
   enableWaybar = {{ $enableWaybar}}
   enableMako = {{ $enableMako}}
   enableFactorio = {{ $enableFactorio}}
+  gitPersonalEmail = {{ $gitPersonalEmail | quote }}
+  gitWorkEmail = {{ $gitWorkEmail | quote }}
+  gitPersonalName = {{ $gitPersonalName | quote }}
+  gitWorkName = {{ $gitWorkName | quote }}
 
 {{- else if eq .chezmoi.os "linux" }}
 
@@ -24,10 +32,13 @@
   {{ $enableWofi := true -}}
   {{ $enableWaybar := true -}}
   {{ $enableMako := true -}}
-
   {{ $wallpaper1:= promptString "path to wallpaper one" -}}
   {{ $wallpaper2:= promptString "path to wallpaper two" }}
   {{ $enableFactorio := promptBool "Factorio on this machine? y/n" }}
+  {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
+  {{- $gitPersonalName := promptString "Enter your personal Git name" -}}
+  {{- $gitWorkEmail := promptString "Enter your work Git email" -}}
+  {{- $gitWorkName := promptString "Enter your work Git name" -}}
 
 [data]
   wallpaper1 = {{ $wallpaper1 | quote }}
@@ -37,8 +48,9 @@
   enableWaybar = {{ $enableWaybar}}
   enableMako = {{ $enableMako}}
   enableFactorio = {{ $enableFactorio}}
-
+  gitPersonalEmail = {{ $gitPersonalEmail | quote }}
+  gitPersonalName = {{ $gitPersonalName | quote }}
+  gitWorkEmail = {{ $gitWorkEmail | quote }}
+  gitWorkName = {{ $gitWorkName | quote }}
 
 {{- end -}}
-
-  
