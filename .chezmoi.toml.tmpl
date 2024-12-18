@@ -1,56 +1,47 @@
 # chezmoi configuration data
 
-{{- $enableHyprland := false }}
-{{- $enableWofi := false }}
-{{- $enableWaybar := false }}
-{{- $enableMako := false }}
-{{- $enableFactorio := false }}
+{{- /* Global variables */ -}}
+{{- $enableHyprland := false -}}
+{{- $enableWofi := false -}}
+{{- $enableWaybar := false -}}
+{{- $enableMako := false -}}
+{{- $enableFactorio := false -}}
+{{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
+{{- $gitPersonalName := promptString "Enter your personal Git name" -}}
 
-{{- if eq .chezmoi.os "darwin"}}
-
-#MACOS
-  {{- $enableHyprland := false}}
-  {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
-  {{- $gitWorkEmail := promptString "Enter your work Git email" -}}
-  {{- $gitPersonalName := promptString "Enter your personal Git name" -}}
-  {{- $gitWorkName := promptString "Enter your work Git name" -}}
-[data]
-  enableHyprland = {{ $enableHyprland }}
-  enableWofi = {{ $enableWofi }}
-  enableWaybar = {{ $enableWaybar}}
-  enableMako = {{ $enableMako}}
-  enableFactorio = {{ $enableFactorio}}
-  gitPersonalEmail = {{ $gitPersonalEmail | quote }}
-  gitWorkEmail = {{ $gitWorkEmail | quote }}
-  gitPersonalName = {{ $gitPersonalName | quote }}
-  gitWorkName = {{ $gitWorkName | quote }}
-
-{{- else if eq .chezmoi.os "linux" }}
-
-#LINUX
-  {{- $enableHyprland := true -}}
-  {{ $enableWofi := true -}}
-  {{ $enableWaybar := true -}}
-  {{ $enableMako := true -}}
-  {{ $wallpaper1:= promptString "path to wallpaper one" -}}
-  {{ $wallpaper2:= promptString "path to wallpaper two" }}
-  {{ $enableFactorio := promptBool "Factorio on this machine? y/n" }}
-  {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
-  {{- $gitPersonalName := promptString "Enter your personal Git name" -}}
-  {{- $gitWorkEmail := promptString "Enter your work Git email" -}}
-  {{- $gitWorkName := promptString "Enter your work Git name" -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{- $enableHyprland = false -}}
+{{- $gitWorkEmail := promptString "Enter your work Git email" -}}
+{{- $gitWorkName := promptString "Enter your work Git name" -}}
 
 [data]
-  wallpaper1 = {{ $wallpaper1 | quote }}
-  wallpaper2 = {{ $wallpaper2 | quote }}
-  enableHyprland = {{ $enableHyprland }}
-  enableWofi = {{ $enableWofi }}
-  enableWaybar = {{ $enableWaybar}}
-  enableMako = {{ $enableMako}}
-  enableFactorio = {{ $enableFactorio}}
-  gitPersonalEmail = {{ $gitPersonalEmail | quote }}
-  gitPersonalName = {{ $gitPersonalName | quote }}
-  gitWorkEmail = {{ $gitWorkEmail | quote }}
-  gitWorkName = {{ $gitWorkName | quote }}
+    enableHyprland = false
+    enableWofi = false
+    enableWaybar = false
+    enableMako = false
+    enableFactorio = false
+    gitPersonalEmail = {{ $gitPersonalEmail | quote }}
+    gitPersonalName = {{ $gitPersonalName | quote }}
+    gitWorkEmail = {{ $gitWorkEmail | quote }}
+    gitWorkName = {{ $gitWorkName | quote }}
 
+{{- else if eq .chezmoi.os "linux" -}}
+{{- $enableHyprland = true -}}
+{{- $enableWofi = true -}}
+{{- $enableWaybar = true -}}
+{{- $enableMako = true -}}
+{{- $wallpaper1 := promptString "path to wallpaper one" -}}
+{{- $wallpaper2 := promptString "path to wallpaper two" -}}
+{{- $enableFactorio = promptBool "Factorio on this machine? y/n" -}}
+
+[data]
+    enableHyprland = true
+    enableWofi = true
+    enableWaybar = true
+    enableMako = true
+    enableFactorio = {{ $enableFactorio }}
+    wallpaper1 = {{ $wallpaper1 | quote }}
+    wallpaper2 = {{ $wallpaper2 | quote }}
+    gitPersonalEmail = {{ $gitPersonalEmail | quote }}
+    gitPersonalName = {{ $gitPersonalName | quote }}
 {{- end -}}
