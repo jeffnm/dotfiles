@@ -19,44 +19,39 @@ zmodule termtitle
 # Utility aliases and functions. Adds colour to ls, grep and less.
 zmodule utility
 
-#fzf
+{{- if eq .chezmoi.os "darwin" }}
+# macOS-specific modules
+zmodule homebrew
+{{- end }}
+
+# Common additional modules
 zmodule fzf
-#
 zmodule https://github.com/zdharma-continuum/history-search-multi-word
-#zsh-z jump to directory
 zmodule https://github.com/agkozak/zsh-z
 
-#
-# MacOS only modules
-#
-# Homebrew
-# zmodule homebrew
+{{- if eq .chezmoi.os "linux" }}
+# Linux-specific modules
+zmodule pacman
+zmodule kiesman99/zim-zoxide
+{{- end }}
 
 #
 # Prompt
 #
 
-# Exposes to prompts how long the last command took to execute, used by asciiship.
+# Common prompt modules
 zmodule duration-info
-# Exposes git repository status information to prompts, used by asciiship.
 zmodule git-info
-# A heavily reduced, ASCII-only version of the Spaceship and Starship prompts.
-# zmodule asciiship
-# PWD for prompts
 zmodule prompt-pwd
-# A agnoster like theme
-#zmodule eriner
-#Spaceship prompt
+
+# Theme configuration
+{{- if eq .chezmoi.os "darwin" }}
 zmodule spaceship-prompt/spaceship-prompt --name spaceship
+{{- else }}
+zmodule joke/zim-starship
+{{- end }}
 
-#
 # Completion
-#
-
-# Additional completion definitions for Zsh.
-zmodule zsh-users/zsh-completions --fpath src
-# Enables and configures smart and extensive tab completion.
-# completion must be sourced after all modules that add completion definitions.
 zmodule completion
 
 #
@@ -71,5 +66,3 @@ zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-history-substring-search
 # Fish-like autosuggestions for Zsh.
 zmodule zsh-users/zsh-autosuggestions
-# End configuration added by Zim install
-
