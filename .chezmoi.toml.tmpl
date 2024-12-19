@@ -12,7 +12,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 {{- $enableHyprland = false -}}
 {{- $gitWorkEmail := promptString "Enter your work Git email" -}}
-{{- $gitWorkName := promptString "Enter your work Git name" -}}
+{{- $gitWorkName := promptString "Enter your work Git name" }}
 
 [data]
     enableHyprland = false
@@ -32,7 +32,7 @@
 {{- $enableMako = true -}}
 {{- $wallpaper1 := promptString "path to wallpaper one" -}}
 {{- $wallpaper2 := promptString "path to wallpaper two" -}}
-{{- $enableFactorio = promptBool "Factorio on this machine? y/n" -}}
+{{- $enableFactorio = promptBool "Factorio on this machine? y/n" }}
 
 [data]
     enableHyprland = true
