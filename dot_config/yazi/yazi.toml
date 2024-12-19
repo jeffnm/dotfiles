@@ -1,0 +1,20 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+
+# See yazi-default.toml for defaults. This config only includes my overrides.
+
+[opener]
+windsurf = [
+  { run = 'windsurf "$@"', orphan = true, for = "unix" },
+]
+sublimemerge = [
+  { run = 'smerge "$@"', orphan = true, for = "unix" },
+]
+
+[open]
+rules = [
+	# Folder
+	{ name = "*/", use = [ "edit", "windsurf", "sublimemerge", "open", "reveal" ] },
+]
