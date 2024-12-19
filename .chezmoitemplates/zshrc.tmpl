@@ -1,0 +1,201 @@
+# =================
+# Zsh Configuration
+# =================
+# This configuration is organized in three main sections:
+# 1. Core Settings: Basic shell behavior and environment
+# 2. Tool Integration: External tools and enhancements
+# 3. Platform Specific: OS-dependent and local settings
+
+# =================
+# Environment
+# =================
+
+# Default editor
+export EDITOR=hx
+export SUDOEDIT=$EDITOR
+
+# Less pager
+export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS=' -NR '
+
+# Mail notification
+MAILCHECK=0                 # Disable mail checking
+
+# =================
+# History
+# =================
+
+# Basic history configuration (works with atuin and substring-search)
+HISTSIZE=50000               # Number of commands to keep in memory
+SAVEHIST=10000              # Number of commands to save to file
+HISTFILE=~/.zsh_history     # History file location
+
+# History behavior (enhances both zsh and atuin history)
+setopt HIST_IGNORE_ALL_DUPS # Remove older duplicate commands
+setopt APPEND_HISTORY       # Append to history file
+setopt INC_APPEND_HISTORY   # Add commands as they are typed
+setopt EXTENDED_HISTORY     # Add timestamps to history
+setopt HIST_IGNORE_SPACE    # Ignore commands starting with space
+setopt HIST_VERIFY         # Show command with history expansion
+unsetopt SHARE_HISTORY     # Don't share history between sessions
+
+# =================
+# Completion and Correction
+# =================
+
+# Colors for completion
+autoload -U colors
+
+# Word handling
+WORDCHARS=${WORDCHARS//[\/]}  # Remove path separator from word chars
+
+# Command correction
+setopt CORRECT                # Enable command correction
+SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+
+# Completion behavior
+setopt COMPLETE_IN_WORD      # Complete from both ends of word
+setopt ALWAYS_TO_END         # Move cursor to end after completion
+setopt PATH_DIRS            # Complete paths from parent dirs
+setopt AUTO_MENU           # Show completion menu on tab press
+setopt AUTO_LIST           # List choices on ambiguous completion
+
+# =================
+# Directory Navigation
+# =================
+
+# Basic directory movement (complementary to zoxide)
+setopt AUTO_CD              # Change directory without cd
+setopt AUTO_PUSHD          # Push directories onto stack
+setopt PUSHD_IGNORE_DUPS   # No duplicates in dir stack
+setopt PUSHD_MINUS         # Swap meaning of + and - for stack
+
+# Smart directory navigation (enhances cd/pushd)
+eval "$(zoxide init zsh)"   # Frequency-based jump with 'z'
+
+# =================
+# Terminal
+# =================
+
+# Window title (managed separately from starship prompt)
+precmd() {
+    print -Pn "\e]0;%~\a"    # Show directory in title
+}
+
+preexec() {
+    print -Pn "\e]0;$1\a"    # Show command in title
+}
+
+# Terminal behavior
+setopt NO_FLOW_CONTROL      # Disable start/stop output control
+
+# =================
+# Key Bindings
+# =================
+
+# Vi mode
+bindkey -v                  # Enable vi key bindings
+
+# History search (integrates with atuin)
+bindkey "^R" history-search-multi-word  # Ctrl-R for history search
+
+# =================
+# Aliases
+# =================
+
+alias l='ls -alFh'         # Detailed list with human-readable sizes
+alias cm='chezmoi'         # Shorthand for chezmoi
+
+# =================
+# Security
+# =================
+
+# GPG for git signing
+export GPG_TTY=$(tty)       # Set GPG terminal for pinentry
+
+# =================
+# Development Tools
+# =================
+
+# Node.js version manager
+if type volta > /dev/null; then
+    export VOLTA_HOME="$HOME/.volta"
+    export PATH="$VOLTA_HOME/bin:$PATH"
+fi
+
+# Python version manager
+if type pyenv > /dev/null; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
+
+# Ruby version manager
+if type rbenv > /dev/null; then
+    eval "$(rbenv init -)"
+fi
+
+# Shell enhancements
+eval "$(atuin init zsh)"    # SQL-based history with sync; I'm not using sync currently
+eval "$(starship init zsh)" # Modern interactive prompt
+
+# =================
+# Zim
+# =================
+
+# Set Zim home directory
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+
+# Install plugin manager if missing
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+
+# Initialize Zim
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+else
+  source ${ZIM_HOME}/init.zsh
+fi
+
+# Module settings (complementing other tools)
+zstyle ':zim:termtitle' format '%1~'          # Window title format
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1              # Performance optimization
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'     # Suggestion text color
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)    # Syntax highlighting rules
+
+# =================
+# Platform Specific
+# =================
+
+{{- if eq .chezmoi.os "darwin" }}
+# macOS settings
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"  # Initialize Homebrew
+fi
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" }}
+# Linux settings
+export PATH="$HOME/.local/bin:$PATH"  # Add user binaries to path
+
+# System configuration
+if [ -f /etc/zshrc ]; then
+    source /etc/zshrc
+fi
+{{- end }}
+
+# =================
+# Local Configuration
+# =================
+
+# Load machine-specific settings
+if [[ -f ~/.zshrc.local ]]; then
+    source ~/.zshrc.local
+fi
