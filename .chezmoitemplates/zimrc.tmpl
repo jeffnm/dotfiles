@@ -1,68 +1,98 @@
-# Start configuration added by Zim install 
 #
-# This is not sourced during shell startup, and it's only used to configure the
-# zimfw plugin manager.
+# Zim Configuration
+# ================
 #
-
-#
-# Modules
+# This configuration file is used by the Zim framework to set up your Zsh environment.
+# Modules are loaded in the order they appear here.
 #
 
-# Sets sane Zsh built-in environment options.
+#
+# Core Modules
+# -----------
+# Essential modules for basic shell functionality
+#
+
+# Sets sane Zsh built-in environment options
 zmodule environment
-# Provides handy git aliases and functions.
-zmodule git
-# Applies correct bindkeys for input events.
+
+# Applies correct bindkeys for input events
 zmodule input
-# Sets a custom terminal title.
+
+# Sets a custom terminal title
 zmodule termtitle
-# Utility aliases and functions. Adds colour to ls, grep and less.
+
+# Basic utility functions and aliases (ls, grep, less colors)
 zmodule utility
 
+#
+# Version Control
+# -------------
+#
+
+# Git aliases and functions
+zmodule git
+
+#
+# Navigation & Search
+# -----------------
+#
+
+# Directory jumping
+zmodule https://github.com/agkozak/zsh-z
+
+# Fuzzy finder integration
+zmodule fzf
+
+# Enhanced history search
+zmodule https://github.com/zdharma-continuum/history-search-multi-word
+
+#
+# OS-Specific Modules
+# -----------------
+#
+
 {{- if eq .chezmoi.os "darwin" }}
-# macOS-specific modules
+# macOS tools and aliases
 zmodule homebrew
 {{- end }}
 
-# Common additional modules
-zmodule fzf
-zmodule https://github.com/zdharma-continuum/history-search-multi-word
-zmodule https://github.com/agkozak/zsh-z
-
 {{- if eq .chezmoi.os "linux" }}
-# Linux-specific modules
+# Linux package management
 zmodule pacman
 zmodule kiesman99/zim-zoxide
 {{- end }}
 
 #
-# Prompt
+# Prompt Configuration
+# ------------------
 #
 
-# Common prompt modules
-zmodule duration-info
-zmodule git-info
-zmodule prompt-pwd
+# Modules required for prompt functionality
+zmodule duration-info  # Command execution time tracking
+zmodule git-info      # Git status information
+zmodule prompt-pwd    # Working directory for prompts
 
-# Theme configuration
+# Theme selection
 {{- if eq .chezmoi.os "darwin" }}
 zmodule spaceship-prompt/spaceship-prompt --name spaceship
 {{- else }}
 zmodule joke/zim-starship
 {{- end }}
 
-# Completion
+#
+# Completion System
+# ---------------
+#
+
 zmodule completion
 
 #
-# Modules that must be initialized last
+# Final Modules
+# -----------
+# These modules must be loaded last
 #
 
-# Fish-like syntax highlighting for Zsh.
-# zsh-users/zsh-syntax-highlighting must be sourced after completion
-zmodule zsh-users/zsh-syntax-highlighting
-# Fish-like history search (up arrow) for Zsh.
-# zsh-users/zsh-history-substring-search must be sourced after zsh-users/zsh-syntax-highlighting
-zmodule zsh-users/zsh-history-substring-search
-# Fish-like autosuggestions for Zsh.
-zmodule zsh-users/zsh-autosuggestions
+# Fish-like features
+zmodule zsh-users/zsh-syntax-highlighting      # Syntax highlighting
+zmodule zsh-users/zsh-history-substring-search # History search
+zmodule zsh-users/zsh-autosuggestions         # Command suggestions
