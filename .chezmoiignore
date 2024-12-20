@@ -42,6 +42,11 @@
 .config/wofi/style.css
 {{ end }}
 
+# Work-specific configs
+{{ if eq .chezmoi.os "linux" }}
+.gitconfig-work
+{{ end }}
+
 # ALWAYS IGNORED
 # Explicitly ignore xmonad
 xmonad/
