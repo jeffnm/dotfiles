@@ -184,11 +184,6 @@ fi
 {{- if eq .chezmoi.os "linux" }}
 # Linux settings
 export PATH="$HOME/.local/bin:$PATH"  # Add user binaries to path
-
-# System configuration
-if [ -f /etc/zshrc ]; then
-    source /etc/zshrc
-fi
 {{- end }}
 
 # =================
