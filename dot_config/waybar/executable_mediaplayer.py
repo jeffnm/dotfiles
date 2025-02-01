@@ -9,44 +9,70 @@ gi.require_version('Playerctl', '2.0')
 from gi.repository import Playerctl, GLib
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 def write_output(text, player):
+    """Write output to stdout."""
     logger.info('Writing output')
 
     output = {'text': text,
               'class': 'custom-' + player.props.player_name,
-              'alt': player.props.player_name}
+              'alt': player.props.player_name,
+              'loop': player.get_property('loop-status')}
 
     sys.stdout.write(json.dumps(output) + '\n')
     sys.stdout.flush()
 
 
 def on_play(player, status, manager):
+    """Handle playback status change."""
     logger.info('Received new playback status')
     on_metadata(player, player.props.metadata, manager)
 
 
 def on_metadata(player, metadata, manager):
+    """Handle metadata change."""
     logger.info('Received new metadata')
     track_info = ''
 
+    # Check if Spotify ad is playing
     if player.props.player_name == 'spotify' and \
             'mpris:trackid' in metadata.keys() and \
             ':ad:' in player.props.metadata['mpris:trackid']:
         track_info = 'AD PLAYING'
+    # Check if artist and title are available
     elif player.get_artist() != '' and player.get_title() != '':
         track_info = '{artist} - {title}'.format(artist=player.get_artist(),
                                                  title=player.get_title())
     else:
         track_info = player.get_title()
 
-    if player.props.status != 'Playing' and track_info:
-        track_info = ' ' + track_info
+    # Add status icon based on player state
+    if player.props.status == 'Playing':
+        track_info = ' ' + track_info
+    else:
+        track_info = ' ' + track_info
+
+    # Add loop status indicators - only updates on metadata/playback changes
+    # Loop status values: 0=None, 1=Track, 2=Playlist
+    # Note: Not all players implement loop status (e.g. Firefox)
+    try:
+        loop_status = player.get_property('loop-status')
+        if loop_status == 1:
+            track_info = '󰑘 ' + track_info  # Track repeat
+        elif loop_status == 2:
+            track_info = '󰑖 ' + track_info  # Playlist repeat
+    except GLib.Error:
+        pass  # Player doesn't support loop status
+    except Exception as e:
+        logger.error(f"Unexpected error getting loop status: {e}")
+
     write_output(track_info, player)
 
 
 def on_player_appeared(manager, player, selected_player=None):
+    """Handle player appearance."""
     if player is not None and (selected_player is None or player.name == selected_player):
         init_player(manager, player)
     else:
@@ -54,12 +80,14 @@ def on_player_appeared(manager, player, selected_player=None):
 
 
 def on_player_vanished(manager, player):
+    """Handle player disappearance."""
     logger.info('Player has vanished')
     sys.stdout.write('\n')
     sys.stdout.flush()
 
 
 def init_player(manager, name):
+    """Initialize player."""
     logger.debug('Initialize player: {player}'.format(player=name.name))
     player = Playerctl.Player.new_from_name(name)
     player.connect('playback-status', on_play, manager)
@@ -69,6 +97,7 @@ def init_player(manager, name):
 
 
 def signal_handler(sig, frame):
+    """Handle signal."""
     logger.debug('Received signal to stop, exiting')
     sys.stdout.write('\n')
     sys.stdout.flush()
@@ -77,6 +106,7 @@ def signal_handler(sig, frame):
 
 
 def parse_arguments():
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser()
 
     # Increase verbosity with every occurrence of -v
@@ -89,14 +119,10 @@ def parse_arguments():
 
 
 def main():
+    """Main function."""
     arguments = parse_arguments()
 
     # Initialize logging
-    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG,
-                        format='%(name)s %(levelname)s %(message)s')
-
-    # Logging is set by default to WARN and higher.
-    # With every occurrence of -v it's lowered by one
     logger.setLevel(max((3 - arguments.verbose) * 10, 0))
 
     # Log the sent command line arguments
@@ -126,4 +152,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
