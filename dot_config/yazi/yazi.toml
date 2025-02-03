@@ -14,7 +14,8 @@ sublimemerge = [
 ]
 
 [open]
-rules = [
+prepend_rules = [
 	# Folder
 	{ name = "*/", use = [ "edit", "windsurf", "sublimemerge", "open", "reveal" ] },
+  { mime = "text/*", use = [ "edit", "windsurf", "open", "reveal"]}
 ]
