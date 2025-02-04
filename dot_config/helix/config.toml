@@ -26,3 +26,29 @@ display-messages = true
 
 [keys.normal]
 esc = ["collapse_selection", "keep_primary_selection"]
+n = "move_char_left"
+e = "move_visual_line_down"
+i = "move_visual_line_up"
+o = "move_char_right"
+
+
+j = "move_next_word_end"
+h = "search_next"
+k = "insert_mode"
+K = "insert_at_line_start"
+l = "open_below"
+L = "open_above"
+
+[keys.select]
+n = "extend_char_left"
+e = "extend_visual_line_down"
+i = "extend_visual_line_up"
+o = "extend_char_right"
+
+
+j = "extend_next_word_end"
+h = "extend_search_next"
+# k = "insert_mode"
+# K = "insert_at_line_start"
+l = "open_below"
+L = "open_above"

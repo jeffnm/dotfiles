@@ -120,6 +120,31 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+" Movement key remappings (hjkl <-> neio)
+" Remap movement keys
+nnoremap n h
+nnoremap e j
+nnoremap i k
+nnoremap o l
+
+" Remap the original functions of neio
+nnoremap h n
+nnoremap j e
+nnoremap k i
+nnoremap l o
+
+" Visual mode remappings
+vnoremap n h
+vnoremap e j
+vnoremap i k
+vnoremap o l
+
+" Operator-pending mode remappings
+onoremap n h
+onoremap e j
+onoremap i k
+onoremap o l
+
 " ALE Configuration
 let g:ale_fix_on_save = 1
 let g:ale_sign_error = '✘'
