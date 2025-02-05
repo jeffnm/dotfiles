@@ -89,15 +89,6 @@ preexec() {
 # Terminal behavior
 setopt NO_FLOW_CONTROL      # Disable start/stop output control
 
-# =================
-# Key Bindings
-# =================
-
-# Vi mode
-bindkey -v                  # Enable vi key bindings
-
-# History search (integrates with atuin)
-bindkey "^R" history-search-multi-word  # Ctrl-R for history search
 
 # =================
 # Aliases
@@ -188,3 +179,22 @@ export PATH="$HOME/.local/bin:$PATH"  # Add user binaries to path
 if [[ -f ~/.zshrc.local ]]; then
     source ~/.zshrc.local
 fi
+
+
+
+# =================
+# Key Bindings
+# =================
+
+# Vi mode
+bindkey -v                  # Enable vi key bindings
+bindkey -M vicmd n vi-backward-char
+# bindkey -M vicmd e atuin-down-search-vicmd
+bindkey -M vicmd i atuin-up-search-vicmd
+bindkey -M vicmd o vi-forward-char
+bindkey -M vicmd k vi-insert
+bindkey -M vicmd j vi-forward-word-end
+
+# History search (integrates with atuin)
+bindkey "^R" history-search-multi-word  # Ctrl-R for history search
+
