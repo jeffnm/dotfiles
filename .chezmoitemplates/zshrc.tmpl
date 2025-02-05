@@ -133,29 +133,6 @@ eval "$(atuin init zsh)"    # SQL-based history with sync; I'm not using sync cu
 eval "$(starship init zsh)" # Modern interactive prompt
 
 # =================
-# Completion Optimization
-# =================
-
-# Create cache directory if it doesn't exist
-autoload -Uz compinit
-ZCOMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
-
-# Only rebuild completion dump once per day
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit -d "$ZCOMPDUMP"
-else
-    compinit -C -d "$ZCOMPDUMP"
-fi
-
-# Load completions in background
-{
-    # Compile zcompdump if modified
-    if [[ -s "$ZCOMPDUMP" && (! -s "${ZCOMPDUMP}.zwc" || "$ZCOMPDUMP" -nt "${ZCOMPDUMP}.zwc") ]]; then
-        zcompile "$ZCOMPDUMP"
-    fi
-} &!
-
-# =================
 # Zim
 # =================
 
