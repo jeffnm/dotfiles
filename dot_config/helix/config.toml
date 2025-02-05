@@ -30,7 +30,7 @@ n = "move_char_left"
 e = "move_visual_line_down"
 i = "move_visual_line_up"
 o = "move_char_right"
-
+O = "no_op"
 
 j = "move_next_word_end"
 h = "search_next"
@@ -44,7 +44,7 @@ n = "extend_char_left"
 e = "extend_visual_line_down"
 i = "extend_visual_line_up"
 o = "extend_char_right"
-
+O = "no_op"
 
 j = "extend_next_word_end"
 h = "extend_search_next"
