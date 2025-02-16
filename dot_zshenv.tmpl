@@ -1,0 +1,4 @@
+setopt no_global_rcs
+{{- if stat (joinPath .chezmoi.homeDir ".cargo/env") }}
+. "$HOME/.cargo/env"
+{{- end }}
