@@ -119,10 +119,13 @@ if type rbenv > /dev/null; then
     eval "$(rbenv init -)"
 fi
 
+{{- if eq .chezmoi.os "darwin" }}
+# Ruby version manager (Homebrew)
 if [ -d "/opt/homebrew/opt/chruby/bin" ]; then
     source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
     source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 fi
+{{- end }}
 
 # Shell enhancements
 eval "$(atuin init zsh)"    # SQL-based history with sync; I'm not using sync currently
@@ -202,4 +205,3 @@ bindkey -M vicmd j vi-forward-word-end
 
 # History search (integrates with atuin)
 bindkey "^R" history-search-multi-word  # Ctrl-R for history search
-
