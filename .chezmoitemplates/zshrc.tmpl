@@ -22,6 +22,36 @@ export LESS=' -NR '
 MAILCHECK=0                 # Disable mail checking
 
 # =================
+# Path Configuration
+# =================
+# Ensure PATH is set up early, before completions are initialized
+
+{{- if eq .chezmoi.os "darwin" }}
+# macOS Homebrew
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"  # Initialize Homebrew
+fi
+export PATH="/usr/local/bin:$PATH"
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" }}
+# Linux paths
+export PATH="$HOME/.local/bin:$PATH"  # Add user binaries to path
+{{- end }}
+
+# Development tools path setup
+# Node.js version manager
+if type volta > /dev/null; then
+    export VOLTA_HOME="$HOME/.volta"
+    export PATH="$VOLTA_HOME/bin:$PATH"
+fi
+
+# Add any custom paths from local configuration if it exists
+if [ -r ~/.path.local ]; then
+    source ~/.path.local
+fi
+
+# =================
 # History
 # =================
 
@@ -59,6 +89,13 @@ setopt ALWAYS_TO_END         # Move cursor to end after completion
 setopt PATH_DIRS            # Complete paths from parent dirs
 setopt AUTO_MENU           # Show completion menu on tab press
 setopt AUTO_LIST           # List choices on ambiguous completion
+
+# Initialize the completion system - this happens after PATH is fully configured
+autoload -Uz compinit
+compinit
+
+# Ensure completion uses the updated PATH
+zstyle ':completion:*' rehash true  # Automatically find new executables in PATH
 
 # =================
 # Directory Navigation
@@ -107,12 +144,6 @@ export GPG_TTY=$(tty)       # Set GPG terminal for pinentry
 # =================
 # Development Tools
 # =================
-
-# Node.js version manager
-if type volta > /dev/null; then
-    export VOLTA_HOME="$HOME/.volta"
-    export PATH="$VOLTA_HOME/bin:$PATH"
-fi
 
 # Ruby version manager
 if type rbenv > /dev/null; then
@@ -167,16 +198,13 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)    # Syntax highlighting rules
 # =================
 
 {{- if eq .chezmoi.os "darwin" }}
-# macOS settings
-if [ -x /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"  # Initialize Homebrew
-fi
-export PATH="/usr/local/bin:$PATH"
+# macOS settings (non-path related)
+# Path is already set up in the Path Configuration section
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
-# Linux settings
-export PATH="$HOME/.local/bin:$PATH"  # Add user binaries to path
+# Linux settings (non-path related)
+# Path is already set up in the Path Configuration section
 {{- end }}
 
 # =================
