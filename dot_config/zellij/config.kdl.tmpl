@@ -23,9 +23,9 @@ keybinds {
     pane {
         bind "Ctrl p" { SwitchToMode "Normal"; }
         bind "n" "Left" { MoveFocus "Left"; }
-        bind "o" "Right" { MoveFocus "Right"; }
         bind "e" "Down" { MoveFocus "Down"; }
         bind "i" "Up" { MoveFocus "Up"; }
+        bind "o" "Right" { MoveFocus "Right"; }
         bind "p" { SwitchFocus; }
         bind "h" { NewPane; SwitchToMode "Normal"; }
         bind "d" { NewPane "Down"; SwitchToMode "Normal"; }
@@ -45,6 +45,8 @@ keybinds {
         bind "e" "Down" { MovePane "Down"; }
         bind "i" "Up" { MovePane "Up"; }
         bind "o" "Right" { MovePane "Right"; }
+        bind "Alt n" "Alt Left" { MoveTab "Left"; }
+        bind "Alt o" "Alt Right" { MoveTab "Right"; }
     }
     tab {
         bind "Ctrl t" { SwitchToMode "Normal"; }
@@ -148,8 +150,6 @@ keybinds {
         bind "Ctrl g" { SwitchToMode "Locked"; }
         bind "Ctrl q" { Quit; }
         bind "Alt h" { NewPane; }
-        bind "Alt n" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt o" "Alt Right" { MoveFocusOrTab "Right"; }
         bind "Alt e" "Alt Down" { MoveFocus "Down"; }
         bind "Alt i" "Alt Up" { MoveFocus "Up"; }
         bind "Alt =" "Alt +" { Resize "Increase"; }
@@ -177,6 +177,8 @@ keybinds {
     }
     shared_except "move" "locked" {
         bind "Ctrl h" { SwitchToMode "Move"; }
+        bind "Alt n" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt o" "Alt Right" { MoveFocusOrTab "Right"; }
     }
     shared_except "tmux" "locked" {
         bind "Ctrl b" { SwitchToMode "Tmux"; }
