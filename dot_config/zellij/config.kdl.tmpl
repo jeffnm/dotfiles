@@ -149,6 +149,7 @@ keybinds {
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
         bind "Ctrl q" { Quit; }
+
         bind "Alt h" { NewPane; }
         bind "Alt e" "Alt Down" { MoveFocus "Down"; }
         bind "Alt i" "Alt Up" { MoveFocus "Up"; }
@@ -171,6 +172,7 @@ keybinds {
     }
     shared_except "session" "locked" {
         bind "Ctrl o" { SwitchToMode "Session"; }
+        bind "Ctrl d" { Detach; }
     }
     shared_except "tab" "locked" {
         bind "Ctrl t" { SwitchToMode "Tab"; }
