@@ -40,8 +40,8 @@ export PATH="$HOME/.local/bin:$PATH"  # Add user binaries to path
 {{- end }}
 
 # Development tools path setup
-# Node.js version manager
-if type volta > /dev/null; then
+# Node.js version manager - lazy loaded
+if [ -d "$HOME/.volta" ]; then
     export VOLTA_HOME="$HOME/.volta"
     export PATH="$VOLTA_HOME/bin:$PATH"
 fi
@@ -107,8 +107,19 @@ setopt AUTO_PUSHD          # Push directories onto stack
 setopt PUSHD_IGNORE_DUPS   # No duplicates in dir stack
 setopt PUSHD_MINUS         # Swap meaning of + and - for stack
 
-# Smart directory navigation (enhances cd/pushd)
-eval "$(zoxide init zsh)"   # Frequency-based jump with 'z'
+# Smart directory navigation (enhances cd/pushd) - lazy loaded
+_zoxide_init() {
+    eval "$(zoxide init zsh)"   # Frequency-based jump with 'z'
+}
+
+# Create wrapper for z command
+if (( ${+commands[zoxide]} )); then
+    z() {
+        unset -f z
+        _zoxide_init
+        z "$@"
+    }
+fi
 
 # =================
 # Terminal
@@ -145,22 +156,57 @@ export GPG_TTY=$(tty)       # Set GPG terminal for pinentry
 # Development Tools
 # =================
 
-# Ruby version manager
-if type rbenv > /dev/null; then
+# Ruby version manager - lazy loaded
+rbenv_init() {
     eval "$(rbenv init -)"
+}
+
+if [ -d "$HOME/.rbenv/bin" ] || command -v rbenv >/dev/null; then
+    # Add rbenv to path but defer initialization
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    # Create wrapper functions for commonly used rbenv commands
+    for cmd in rbenv ruby gem irb rails rake bundle; do
+        eval "$cmd() { unset -f $cmd; rbenv_init; $cmd \$@ }"
+    done
 fi
 
 {{- if eq .chezmoi.os "darwin" }}
-# Ruby version manager (Homebrew)
-if [ -d "/opt/homebrew/opt/chruby/bin" ]; then
+# Ruby version manager (Homebrew) - lazy loaded
+chruby_init() {
     source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
     source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+}
+
+if [ -d "/opt/homebrew/opt/chruby/bin" ]; then
+    # Create wrapper functions for common Ruby commands
+    for cmd in ruby gem irb rails rake bundle; do
+        eval "$cmd() { unset -f $cmd; chruby_init; $cmd \$@ }"
+    done
 fi
 {{- end }}
 
-# Shell enhancements
-eval "$(atuin init zsh)"    # SQL-based history with sync; I'm not using sync currently
+# Shell enhancements - prioritizing prompt initialization
+# Initialize starship first as it's visible immediately
 eval "$(starship init zsh)" # Modern interactive prompt
+
+# Defer atuin initialization slightly
+_atuin_init() {
+    eval "$(atuin init zsh)"    # SQL-based history with sync
+    
+    # Set up atuin-specific key bindings after initialization
+    # Vi mode bindings for atuin
+    bindkey -M vicmd i atuin-up-search-vicmd
+    # bindkey -M vicmd e atuin-down-search-vicmd
+    
+    # Regular mode bindings
+    bindkey "^R" history-search-multi-word  # Ctrl-R for history search
+}
+
+# Initialize atuin immediately to ensure key bindings work
+# This is important for features like vicmd mode bindings
+if (( ${+commands[atuin]} )); then
+    _atuin_init
+fi
 
 # =================
 # Zim
@@ -180,12 +226,24 @@ if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
   fi
 fi
 
-# Initialize Zim
-if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init -q
-else
-  source ${ZIM_HOME}/init.zsh
+# Initialize Zim - optimized to avoid file timestamp check on every load
+# Only check timestamps once a day by using a cache file
+ZIM_CACHE_FILE="${ZIM_HOME}/.init_cache"
+ZIM_CACHE_SECONDS=$((60 * 60 * 24))  # 24 hours
+
+# Check if we need to regenerate the init script
+if [[ ! -f "$ZIM_CACHE_FILE" ]] || \
+   [[ $(( $(date +%s) - $(stat -f %m "$ZIM_CACHE_FILE" 2>/dev/null || echo 0) )) -gt $ZIM_CACHE_SECONDS ]]; then
+  # Only run the check if the cache is outdated
+  if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+    source ${ZIM_HOME}/zimfw.zsh init -q
+  fi
+  # Update the cache timestamp
+  touch "$ZIM_CACHE_FILE"
 fi
+
+# Always source the init script
+source ${ZIM_HOME}/init.zsh
 
 # Module settings (complementing other tools)
 zstyle ':zim:termtitle' format '%1~'          # Window title format
@@ -225,11 +283,11 @@ fi
 # Vi mode
 bindkey -v                  # Enable vi key bindings
 bindkey -M vicmd n vi-backward-char
-# bindkey -M vicmd e atuin-down-search-vicmd
-bindkey -M vicmd i atuin-up-search-vicmd
 bindkey -M vicmd o vi-forward-char
 bindkey -M vicmd k vi-insert
 bindkey -M vicmd j vi-forward-word-end
+
+# Note: atuin-specific bindings are set in the _atuin_init function
 
 # History search (integrates with atuin)
 bindkey "^R" history-search-multi-word  # Ctrl-R for history search
