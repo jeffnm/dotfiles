@@ -107,19 +107,6 @@ setopt AUTO_PUSHD          # Push directories onto stack
 setopt PUSHD_IGNORE_DUPS   # No duplicates in dir stack
 setopt PUSHD_MINUS         # Swap meaning of + and - for stack
 
-# Smart directory navigation (enhances cd/pushd) - lazy loaded
-_zoxide_init() {
-    eval "$(zoxide init zsh)"   # Frequency-based jump with 'z'
-}
-
-# Create wrapper for z command
-if (( ${+commands[zoxide]} )); then
-    z() {
-        unset -f z
-        _zoxide_init
-        z "$@"
-    }
-fi
 
 # =================
 # Terminal
