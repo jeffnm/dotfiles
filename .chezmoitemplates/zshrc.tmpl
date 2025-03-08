@@ -24,7 +24,6 @@ MAILCHECK=0                 # Disable mail checking
 # =================
 # Path Configuration
 # =================
-# Ensure PATH is set up early, before completions are initialized
 
 {{- if eq .chezmoi.os "darwin" }}
 # macOS Homebrew
@@ -70,11 +69,8 @@ setopt HIST_VERIFY         # Show command with history expansion
 unsetopt SHARE_HISTORY     # Don't share history between sessions
 
 # =================
-# Completion and Correction
+# Command Correction
 # =================
-
-# Colors for completion
-autoload -U colors
 
 # Word handling
 WORDCHARS=${WORDCHARS//[\/]}  # Remove path separator from word chars
@@ -82,20 +78,6 @@ WORDCHARS=${WORDCHARS//[\/]}  # Remove path separator from word chars
 # Command correction
 setopt CORRECT                # Enable command correction
 SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
-
-# Completion behavior
-setopt COMPLETE_IN_WORD      # Complete from both ends of word
-setopt ALWAYS_TO_END         # Move cursor to end after completion
-setopt PATH_DIRS            # Complete paths from parent dirs
-setopt AUTO_MENU           # Show completion menu on tab press
-setopt AUTO_LIST           # List choices on ambiguous completion
-
-# Initialize the completion system - this happens after PATH is fully configured
-autoload -Uz compinit
-compinit
-
-# Ensure completion uses the updated PATH
-zstyle ':completion:*' rehash true  # Automatically find new executables in PATH
 
 # =================
 # Directory Navigation
@@ -231,7 +213,7 @@ ZIM_CACHE_SECONDS=$((60 * 60 * 24))  # 24 hours
 
 # Check if we need to regenerate the init script
 if [[ ! -f "$ZIM_CACHE_FILE" ]] || \
-   [[ $(( $(date +%s) - $(stat -f %m "$ZIM_CACHE_FILE" 2>/dev/null || echo 0) )) -gt $ZIM_CACHE_SECONDS ]]; then
+   [[ $(( $(date +%s) - $({{- if eq .chezmoi.os "darwin" }}stat -f %m{{- else}}stat -c %Y{{- end}} "$ZIM_CACHE_FILE" 2>/dev/null || echo 0) )) -gt $ZIM_CACHE_SECONDS ]]; then
   # Only run the check if the cache is outdated
   if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
     source ${ZIM_HOME}/zimfw.zsh init -q
@@ -242,6 +224,9 @@ fi
 
 # Always source the init script
 source ${ZIM_HOME}/init.zsh
+
+# Ensure completion uses the updated PATH
+zstyle ':completion:*' rehash true  # Automatically find new executables in PATH
 
 # Module settings (complementing other tools)
 zstyle ':zim:termtitle' format '%1~'          # Window title format
