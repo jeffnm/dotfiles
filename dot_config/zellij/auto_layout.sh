@@ -1,0 +1,154 @@
+#!/bin/bash
+
+# Auto-select zellij layout based on current directory
+# Usage: source this file in your .zshrc or .bashrc
+# Then use 'zj' command to start zellij with the appropriate layout
+
+# Helper function to detect the appropriate layout for a directory
+detect_layout() {
+  local DIR="$1"
+  local LAYOUT=""
+  
+  # Save current directory to return to it later
+  local CURRENT_DIR=$(pwd)
+  
+  # Change to the target directory temporarily to check its contents
+  cd "$DIR" 2>/dev/null || return 1
+  
+  # Check if we're in a chezmoi directory
+  if [[ "$DIR" == *".local/share/chezmoi"* ]] || [[ "$DIR" == *"dotfiles"* ]]; then
+    LAYOUT="dotfiles"
+  
+  # Check for development projects with common patterns
+  elif [[ -f "package.json" ]] || [[ -f "Cargo.toml" ]] || [[ -d ".git" && -f "Makefile" ]]; then
+    LAYOUT="dev"
+  
+  # Default to project layout for other directories with .git
+  elif [[ -d ".git" ]]; then
+    LAYOUT="project"
+  fi
+  
+  # Return to original directory
+  cd "$CURRENT_DIR"
+  
+  echo "$LAYOUT"
+}
+
+# Helper function to strip ANSI color codes from text
+strip_colors() {
+  # Remove ANSI escape sequences (color codes)
+  sed 's/\x1B\[[0-9;]*[JKmsu]//g'
+}
+
+# Function to get clean list of sessions
+get_sessions() {
+  # Get sessions and strip color codes
+  zellij list-sessions | strip_colors
+}
+
+# Function to check if a session exists
+session_exists() {
+  local SESSION_NAME="$1"
+  # Get clean session list and check for exact match
+  get_sessions | grep -q "^${SESSION_NAME}[[:space:]]"
+  return $?
+}
+
+# Main function to manage zellij sessions
+zj() {
+  local TARGET_DIR="${1:-.}"
+  local ABS_TARGET_DIR=$(cd "$TARGET_DIR" 2>/dev/null && pwd)
+  
+  if [[ -z "$ABS_TARGET_DIR" ]]; then
+    echo "Error: Directory '$TARGET_DIR' does not exist"
+    return 1
+  fi
+  
+  local SESSION_NAME=$(basename "$ABS_TARGET_DIR")
+  local LAYOUT=$(detect_layout "$ABS_TARGET_DIR")
+  
+  # Check if already in a zellij session
+  if [[ -n "$ZELLIJ" ]]; then
+    # If already in a session, add a new tab with the layout if specified
+    if [[ -n "$LAYOUT" ]]; then
+      zellij action new-tab --layout "$LAYOUT"
+    else
+      zellij action new-tab
+    fi
+    return 0
+  fi
+  
+  # Check if session already exists
+  if session_exists "$SESSION_NAME"; then
+    echo "Attaching to existing session: $SESSION_NAME"
+    zellij attach "$SESSION_NAME"
+  else
+    # Start a new session with the layout and a meaningful name
+    echo "Creating new session: $SESSION_NAME"
+    if [[ -n "$LAYOUT" ]]; then
+      # Use --new-session-with-layout to create a new session with the layout
+      (cd "$ABS_TARGET_DIR" && zellij --new-session-with-layout "$LAYOUT" --session "$SESSION_NAME")
+    else
+      # Just create a new session with the default layout
+      (cd "$ABS_TARGET_DIR" && zellij --session "$SESSION_NAME")
+    fi
+  fi
+}
+
+# Function to list and select a session to attach to
+zjs() {
+  local SESSIONS=$(get_sessions)
+  
+  if [[ -z "$SESSIONS" ]]; then
+    echo "No active sessions"
+    return 1
+  fi
+  
+  # If fzf is available, use it for interactive selection
+  if command -v fzf >/dev/null 2>&1; then
+    local SELECTED=$(echo "$SESSIONS" | fzf --height 40% --reverse --header="Select a session to attach to:")
+    if [[ -n "$SELECTED" ]]; then
+      # Extract just the session name (first word)
+      local SESSION_NAME=$(echo "$SELECTED" | awk '{print $1}')
+      echo "Attaching to session: $SESSION_NAME"
+      zellij attach "$SESSION_NAME"
+    fi
+  else
+    # Simple numbered menu if fzf is not available
+    echo "Available sessions:"
+    local i=1
+    local SESSION_NAMES=()
+    
+    while IFS= read -r line; do
+      echo "[$i] $line"
+      # Extract just the session name (first word)
+      SESSION_NAMES+=("$(echo "$line" | awk '{print $1}')")
+      ((i++))
+    done <<< "$SESSIONS"
+    
+    echo -n "Enter session number to attach to [1-$((i-1))]: "
+    read -r choice
+    
+    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice < i )); then
+      local SESSION_NAME="${SESSION_NAMES[$((choice-1))]}"
+      echo "Attaching to session: $SESSION_NAME"
+      zellij attach "$SESSION_NAME"
+    else
+      echo "Invalid selection"
+      return 1
+    fi
+  fi
+}
+
+# Function to attach to existing session or create a new one with auto layout
+zja() {
+  local SESSIONS=$(get_sessions)
+  
+  if [[ -z "$SESSIONS" ]]; then
+    # No sessions exist, create a new one
+    zj
+  else
+    # Sessions exist, let user select one
+    zjs
+  fi
+}

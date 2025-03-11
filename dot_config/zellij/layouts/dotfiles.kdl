@@ -1,0 +1,69 @@
+// Dotfiles management layout for chezmoi
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    tab name="Dotfiles" focus=true {
+        pane split_direction="vertical" {
+            pane name="Editor" size="60%" focus=true
+            pane split_direction="horizontal" {
+                pane name="Chezmoi Status" {
+                    command "watch"
+                    args "-n" "30" "chezmoi" "status"
+                }
+                pane name="Terminal" 
+            }
+        }
+    }
+
+    tab name="Chezmoi" {
+        pane split_direction="horizontal" {
+            pane name="Diff" {
+                command "chezmoi"
+                args "diff"
+            }
+            pane split_direction="vertical" {
+                pane name="Managed" {
+                    command "chezmoi"
+                    args "managed"
+                }
+                pane name="Data" {
+                    command "chezmoi"
+                    args "data"
+                }
+            }
+        }
+    }
+
+    tab name="Git" {
+        pane split_direction="vertical" {
+            pane size="50%" split_direction="horizontal" {
+                pane name="Status" {
+                    command "git"
+                    args "status" "--short"
+                }
+                pane name="Diff" {
+                    command "git"
+                    args "diff" "--stat"
+                }
+            }
+            pane split_direction="horizontal" {
+                pane name="Log" {
+                    command "git"
+                    args "log" "--graph" "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'" "--abbrev-commit" "-n" "15"
+                }
+                pane name="Branch" {
+                    command "git"
+                    args "branch" "-vv"
+                }
+            }
+        }
+    }
+}

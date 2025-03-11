@@ -152,17 +152,6 @@ if [ -d "/opt/homebrew/opt/chruby/bin" ]; then
         eval "$cmd() { unset -f $cmd; chruby_init; $cmd \$@ }"
     done
 fi
-# Check if zesh command exists
-if (( ${+commands[zesh]} )); then
-    # Function to select and connect with zesh
-    zesh_select_and_cn() {
-        local selected=$(zesh l | fzf)
-        if [[ -n "$selected" ]]; then
-            zesh cn "$selected"
-        fi
-    }
-    alias zeshc="zesh_select_and_cn"
-fi
 {{- end }}
 
 # Shell enhancements - prioritizing prompt initialization
@@ -247,6 +236,15 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)    # Syntax highlighting rules
 # Linux settings (non-path related)
 # Path is already set up in the Path Configuration section
 {{- end }}
+
+# =================
+# Zellij Integration
+# =================
+
+# Source zellij auto-layout script if it exists
+if [[ -f "$HOME/.config/zellij/auto_layout.sh" ]]; then
+    source "$HOME/.config/zellij/auto_layout.sh"
+fi
 
 # =================
 # Local Configuration

@@ -1,0 +1,90 @@
+// Development layout with editor, terminal, and optional process monitor
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    tab name="Editor" focus=true {
+        pane split_direction="vertical" {
+            pane name="Main Editor" size="70%" focus=true
+            pane split_direction="horizontal" {
+                pane name="Terminal" size="50%"
+                pane name="Build/Test" size="50%"
+            }
+        }
+    }
+
+    tab name="Terminal" {
+        pane split_direction="horizontal" {
+            pane name="Shell 1" size="50%"
+            pane name="Shell 2" size="50%"
+        }
+    }
+
+    tab name="Files" {
+        pane split_direction="vertical" {
+            pane name="File Browser" size="50%" {
+                command "yazi"
+            }
+            pane split_direction="horizontal" {
+                pane name="Find" size="50%" {
+                    command "echo"
+                    args "# Find files by name\nfind . -name \"pattern\" -type f"
+                }
+                pane name="Grep" size="50%" {
+                    command "echo"
+                    args "# Search file contents\ngrep -r \"pattern\" ."
+                }
+            }
+        }
+    }
+
+    tab name="Git" {
+        pane split_direction="vertical" {
+            pane size="50%" split_direction="horizontal" {
+                pane name="Status" {
+                    command "git"
+                    args "status" "--short"
+                }
+                pane name="Diff" {
+                    command "git"
+                    args "diff" "--stat"
+                }
+            }
+            pane split_direction="horizontal" {
+                pane name="Log" {
+                    command "git"
+                    args "log" "--graph" "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'" "--abbrev-commit" "-n" "15"
+                }
+                pane name="Branch" {
+                    command "git"
+                    args "branch" "-vv"
+                }
+            }
+        }
+    }
+
+    tab name="Monitoring" {
+        pane split_direction="horizontal" {
+            pane name="Process Monitor" {
+                command "htop"
+            }
+            pane split_direction="vertical" {
+                pane name="Disk Usage" {
+                    command "du"
+                    args "-h" "--max-depth=1" "." 
+                }
+                pane name="Network" {
+                    command "echo"
+                    args "# Network monitoring\n# Try one of these:\n\nss -tulanp  # Open ports\n\nlsof -i     # Network connections\n\nnetstat -tulanp  # Active connections"
+                }
+            }
+        }
+    }
+}
