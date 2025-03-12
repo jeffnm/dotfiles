@@ -1,0 +1,40 @@
+// SaltStack project layout with editor, terminal, git, and SSH panes
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    tab name="Editor" focus=true {
+        pane split_direction="vertical" {
+            pane name="Main Editor" size="70%" focus=true
+            pane name="Terminal" size="30%"
+        }
+    }
+
+    tab name="SSH" {
+        pane split_direction="vertical" {
+            pane name="SSH Terminal 1" size="50%" {
+                command "echo"
+                args "# SSH Terminal 1\n\n# Connect with:\nssh hostname\n\n# Copy files with:\nscp file.txt hostname:\n\n# Salt functionality on remote servers:\n# - Check state of minion: salt-call state.show_highstate\n# - Apply states: salt-call state.apply [state]\n# - Test states: salt-call state.apply [state] test=True\n# - Show grains: salt-call grains.items\n# - Debug mode: salt-call -l debug state.apply [state]"
+            }
+            pane name="SSH Terminal 2" size="50%" {
+                command "echo"
+                args "# SSH Terminal 2\n\n# Connect with:\nssh hostname\n\n# Copy files with:\nscp file.txt hostname:\n\n# Salt functionality on remote servers:\n# - Check state of minion: salt-call state.show_highstate\n# - Apply states: salt-call state.apply [state]\n# - Test states: salt-call state.apply [state] test=True\n# - Show grains: salt-call grains.items\n# - Debug mode: salt-call -l debug state.apply [state]"
+            }
+        }
+    }
+
+    tab name="Files" {
+        pane name="File Browser" {
+            command "yazi"
+        }
+    }
+
+    {{ template "zellij-git-tab.tmpl" . }}
+}

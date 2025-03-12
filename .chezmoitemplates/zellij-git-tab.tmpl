@@ -1,0 +1,26 @@
+    tab name="Git" {
+        pane split_direction="vertical" {
+            pane name="Git Shell" size="60%" focus=true {
+                command "echo"
+                args "# Git Interactive Shell\n\n# To refresh Git panes:\n# - Press 'q' to quit any pager if needed\n# - Press 'Enter' in the respective pane to rerun the command\n\n# Useful Git Aliases (Zim Git Module):\n\n# Branch (G + b)\n# Gb - list branches\n# Gbl - list branches with details\n# GbL - list all branches with details\n# Gbc - create new branch\n\n# Commit (G + c)\n# Gc - commit with message editor\n# Gcm - commit with inline message\n# Gco - checkout\n# Gcf - amend last commit\n\n# Fetch/Pull (G + f)\n# Gf - fetch\n# Gfp - fetch and prune\n# Gfr - pull with rebase\n\n# Status/Diff (G + w)\n# Gws - short status\n# GwS - full status\n# Gwd - diff\n\n# Stash (G + s)\n# Gs - stash\n# Gsp - stash pop\n# Gsl - list stashes\n\n# Push (G + p)\n# Gp - push\n# Gpc - push and set upstream\n# Gpf - force push with lease"
+            }
+            pane split_direction="horizontal" size="40%" {
+                pane name="Status" size="25%" {
+                    command "git"
+                    args "status" "--short"
+                }
+                pane name="Diff" size="25%" {
+                    command "git"
+                    args "diff" "--stat"
+                }
+                pane name="Log" size="25%" {
+                    command "git"
+                    args "log" "--graph" "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'" "--abbrev-commit" "-n" "10"
+                }
+                pane name="Branch" size="25%" {
+                    command "git"
+                    args "branch" "-vv"
+                }
+            }
+        }
+    }

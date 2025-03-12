@@ -42,28 +42,5 @@ layout {
         }
     }
 
-    tab name="Git" {
-        pane split_direction="vertical" {
-            pane size="50%" split_direction="horizontal" {
-                pane name="Status" {
-                    command "git"
-                    args "status" "--short"
-                }
-                pane name="Diff" {
-                    command "git"
-                    args "diff" "--stat"
-                }
-            }
-            pane split_direction="horizontal" {
-                pane name="Log" {
-                    command "git"
-                    args "log" "--graph" "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'" "--abbrev-commit" "-n" "15"
-                }
-                pane name="Branch" {
-                    command "git"
-                    args "branch" "-vv"
-                }
-            }
-        }
-    }
+    {{ template "zellij-git-tab.tmpl" . }}
 }
