@@ -29,18 +29,8 @@ layout {
 
     tab name="Files" {
         pane split_direction="vertical" {
-            pane name="File Browser" size="50%" {
+            pane name="File Browser" {
                 command "yazi"
-            }
-            pane split_direction="horizontal" {
-                pane name="Find" size="50%" {
-                    command "echo"
-                    args "# Find files by name\nfind . -name \"pattern\" -type f"
-                }
-                pane name="Grep" size="50%" {
-                    command "echo"
-                    args "# Search file contents\ngrep -r \"pattern\" ."
-                }
             }
         }
     }
