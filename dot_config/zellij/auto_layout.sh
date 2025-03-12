@@ -19,6 +19,10 @@ detect_layout() {
   if [[ "$DIR" == *".local/share/chezmoi"* ]] || [[ "$DIR" == *"dotfiles"* ]]; then
     LAYOUT="dotfiles"
   
+  # Check for SaltStack projects
+  elif [[ -d "salt" && -d "pillar" ]] || [[ -f "Saltfile" ]] || [[ -d "srv/salt" ]] || [[ "$DIR" == *"salt"* ]]; then
+    LAYOUT="salt"
+  
   # Check for development projects with common patterns
   elif [[ -f "package.json" ]] || [[ -f "Cargo.toml" ]] || [[ -d ".git" && -f "Makefile" ]]; then
     LAYOUT="dev"
@@ -151,4 +155,26 @@ zja() {
     # Sessions exist, let user select one
     zjs
   fi
+}
+
+# Function to create a new session with auto layout using zoxide to find the intended directory
+zji() {
+  # Store the current directory
+  local ORIGINAL_DIR=$(pwd)
+  
+  # Run zi which will change the current directory
+  zi
+  
+  # Get the new current directory
+  local TARGET_DIR=$(pwd)
+  
+  # Only run zj if we actually changed directories
+  if [[ "$TARGET_DIR" != "$ORIGINAL_DIR" ]]; then
+    zj "$TARGET_DIR"
+  else
+    echo "No directory selected with zoxide"
+  fi
+  
+  # Return to the original directory
+  cd "$ORIGINAL_DIR"
 }
