@@ -27,6 +27,11 @@ prepend_keymap = [
 
 	{ on = "<Delete>",         run = "remove",                      desc = "Trash selected files" },
 	{ on = "<S-Delete>",         run = "remove --permanently",        desc = "Permanently delete selected files" },
+
+	# Zellij integration using shell command
+	{ on = "Z", run = 'shell "zellij edit \"$0\" -d right"', desc = "Open file in Zellij pane to the right" },
+	{ on = "<C-o>", run = 'shell "zellij edit \"$0\" -d down"', desc = "Open file in Zellij pane below" },
+	{ on = "<C-f>", run = 'shell "zellij edit \"$0\" -f"', desc = "Open file in floating Zellij pane" },
 ]
 
 [tasks]
