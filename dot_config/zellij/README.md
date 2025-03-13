@@ -6,6 +6,7 @@ This directory contains custom zellij layouts and an auto-layout system that aut
 
 - **dev.kdl**: Development layout with editor, terminal, git, files, and monitoring panes
 - **dotfiles.kdl**: Specialized layout for working with chezmoi dotfiles
+- **notes.kdl**: Layout optimized for note-taking and documentation
 - **project.kdl**: General project layout with flexible panes
 - **salt.kdl**: SaltStack project layout with specialized Salt and SSH tabs
 
@@ -41,6 +42,7 @@ The `auto_layout.sh` script provides several functions to streamline your zellij
    - Otherwise, creates a new session with the appropriate layout:
      - Uses `dotfiles` layout in chezmoi directories
      - Uses `salt` layout in SaltStack project directories
+     - Uses `notes` layout in note-taking directories
      - Uses `dev` layout in directories with package.json, Cargo.toml, or git+Makefile
      - Uses `project` layout in git repositories
      - Uses zellij's built-in default layout elsewhere
@@ -92,6 +94,12 @@ zja
   - Status, Diff, Log, and Branch information panes
 - **Notes Tab**: Scratch pad for taking notes
 
+### Notes Layout (notes.kdl)
+
+- **Notes Tab**: Main editor with preview and search panes  
+- **Files Tab**: File browser with file information and operations
+- **References Tab**: Helpful references and tag management tools
+
 ### Dotfiles Layout (dotfiles.kdl)
 
 - **Dotfiles Tab**: Editor with auto-refreshing chezmoi status
@@ -115,6 +123,7 @@ The auto-layout system detects the appropriate layout based on directory content
 
 - **dotfiles layout**: Used in directories containing `.local/share/chezmoi` or with `dotfiles` in the name
 - **salt layout**: Used in directories with `salt` and `pillar` subdirectories, or with `Saltfile`, or with `srv/salt` subdirectory, or with `salt` in the directory name
+- **notes layout**: Used in directories with `notes` in the name
 - **dev layout**: Used in directories with `package.json`, `Cargo.toml`, or `.git` + `Makefile`
 - **project layout**: Used in directories with `.git`
 - **default zellij layout**: Used in all other directories

@@ -15,21 +15,35 @@ detect_layout() {
   # Change to the target directory temporarily to check its contents
   cd "$DIR" 2>/dev/null || return 1
   
+  # Debug information
+  echo "Detecting layout for directory: $DIR" >&2
+  
   # Check if we're in a chezmoi directory
   if [[ "$DIR" == *".local/share/chezmoi"* ]] || [[ "$DIR" == *"dotfiles"* ]]; then
     LAYOUT="dotfiles"
+    echo "Detected layout: dotfiles" >&2
   
   # Check for SaltStack projects
   elif [[ -d "salt" && -d "pillar" ]] || [[ -f "Saltfile" ]] || [[ -d "srv/salt" ]] || [[ "$DIR" == *"salt"* ]]; then
     LAYOUT="salt"
+    echo "Detected layout: salt" >&2
+  
+  # Check for notes directories - more comprehensive detection
+  elif [[ "$DIR" == *"/notes"* ]] || [[ "$DIR" == *"/Notes"* ]] || [[ "$(basename "$DIR")" == "notes" ]] || [[ "$(basename "$DIR")" == "Notes" ]]; then
+    LAYOUT="notes"
+    echo "Detected layout: notes" >&2
   
   # Check for development projects with common patterns
   elif [[ -f "package.json" ]] || [[ -f "Cargo.toml" ]] || [[ -d ".git" && -f "Makefile" ]]; then
     LAYOUT="dev"
+    echo "Detected layout: dev" >&2
   
   # Default to project layout for other directories with .git
   elif [[ -d ".git" ]]; then
     LAYOUT="project"
+    echo "Detected layout: project" >&2
+  else
+    echo "No specific layout detected, using default" >&2
   fi
   
   # Return to original directory
@@ -71,12 +85,18 @@ zj() {
   local SESSION_NAME=$(basename "$ABS_TARGET_DIR")
   local LAYOUT=$(detect_layout "$ABS_TARGET_DIR")
   
+  echo "Target directory: $ABS_TARGET_DIR" >&2
+  echo "Session name: $SESSION_NAME" >&2
+  echo "Selected layout: $LAYOUT" >&2
+  
   # Check if already in a zellij session
   if [[ -n "$ZELLIJ" ]]; then
     # If already in a session, add a new tab with the layout if specified
     if [[ -n "$LAYOUT" ]]; then
+      echo "Adding new tab with layout: $LAYOUT" >&2
       zellij action new-tab --layout "$LAYOUT"
     else
+      echo "Adding new tab with default layout" >&2
       zellij action new-tab
     fi
     return 0
@@ -84,15 +104,17 @@ zj() {
   
   # Check if session already exists
   if session_exists "$SESSION_NAME"; then
-    echo "Attaching to existing session: $SESSION_NAME"
+    echo "Attaching to existing session: $SESSION_NAME" >&2
     zellij attach "$SESSION_NAME"
   else
     # Start a new session with the layout and a meaningful name
-    echo "Creating new session: $SESSION_NAME"
+    echo "Creating new session: $SESSION_NAME" >&2
     if [[ -n "$LAYOUT" ]]; then
+      echo "Using layout: $LAYOUT" >&2
       # Use --new-session-with-layout to create a new session with the layout
       (cd "$ABS_TARGET_DIR" && zellij --new-session-with-layout "$LAYOUT" --session "$SESSION_NAME")
     else
+      echo "Using default layout" >&2
       # Just create a new session with the default layout
       (cd "$ABS_TARGET_DIR" && zellij --session "$SESSION_NAME")
     fi
