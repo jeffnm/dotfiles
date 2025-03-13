@@ -1,0 +1,113 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+
+[manager]
+
+prepend_keymap = [
+	{on = "!", run  = ["enter",' shell "$SHELL" --block'], desc = "Open shell here"},
+
+	# Hopping
+	{ on = "i", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "e", run = "arrow 1",  desc = "Move cursor down" },
+
+	{ on = [ "g", "g" ], run = "arrow top", desc = "Move cursor to the top" },
+	{ on = ["g","e"], run = "arrow bot",  desc = "Move cursor to the bottom" },
+	
+	# Navigation
+	{ on = "n", run = "leave", desc = "Go back to the parent directory" },
+	{ on = "o", run = "enter", desc = "Enter the child directory" },
+
+	# Seeking
+	{ on = "I", run = "seek -5", desc = "Seek up 5 units in the preview" },
+	{ on = "E", run = "seek 5",  desc = "Seek down 5 units in the preview" },
+
+	{ on = "d",         run = "yank --cut",                  desc = "Yank selected files (cut)" },
+	{ on = "D",         run = "unyank",                      desc = "Cancel the yank status" },
+
+	{ on = "<Delete>",         run = "remove",                      desc = "Trash selected files" },
+	{ on = "<S-Delete>",         run = "remove --permanently",        desc = "Permanently delete selected files" },
+]
+
+[tasks]
+
+prepend_keymap = [
+	# Hopping
+	{ on = "i", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "e", run = "arrow 1",  desc = "Move cursor down" },
+]
+[spot]
+
+prepend_keymap = [
+	# Hopping
+	{ on = "i", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "e", run = "arrow 1",  desc = "Move cursor down" },
+	{ on = "n", run = "swipe -1", desc = "Swipe to the next file" },
+	{ on = "o", run = "swipe 1",  desc = "Swipe to the previous file" },
+]
+
+[pick]
+
+prepend_keymap = [
+	# Hopping
+	{ on = "i", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "e", run = "arrow 1",  desc = "Move cursor down" },
+]
+
+[input]
+
+prepend_keymap = [
+	# Mode
+	{ on = "k", run = "insert",                              desc = "Enter insert mode" },
+	{ on = "a", run = "insert --append",                     desc = "Enter append mode" },
+	{ on = "K", run = [ "move -999", "insert" ],             desc = "Move to the BOL, and enter insert mode" },
+	{ on = "A", run = [ "move 999", "insert --append" ],     desc = "Move to the EOL, and enter append mode" },
+	{ on = "v", run = "visual",                              desc = "Enter visual mode" },
+	{ on = "V", run = [ "move -999", "visual", "move 999" ], desc = "Enter visual mode and select all" },
+
+	# Character-wise movement
+	{ on = "n",       run = "move -1", desc = "Move back a character" },
+	{ on = "o",       run = "move 1",  desc = "Move forward a character" },
+	{ on = "<Left>",  run = "move -1", desc = "Move back a character" },
+	{ on = "<Right>", run = "move 1",  desc = "Move forward a character" },
+	{ on = "<C-b>",   run = "move -1", desc = "Move back a character" },
+	{ on = "<C-f>",   run = "move 1",  desc = "Move forward a character" },
+
+	# Word-wise movement
+	{ on = "b",     run = "backward",              desc = "Move back to the start of the current or previous word" },
+	{ on = "w",     run = "forward",               desc = "Move forward to the start of the next word" },
+	{ on = "j",     run = "forward --end-of-word", desc = "Move forward to the end of the current or next word" },
+	{ on = "<A-b>", run = "backward",              desc = "Move back to the start of the current or previous word" },
+	{ on = "<A-f>", run = "forward --end-of-word", desc = "Move forward to the end of the current or next word" },
+
+	# Line-wise movement
+	{ on = ["g","h"],      run = "move -999", desc = "Move to the BOL" },
+	{ on = ["g","l"],      run = "move 999",  desc = "Move to the EOL" },
+	{ on = "<C-a>",  run = "move -999", desc = "Move to the BOL" },
+	{ on = "<C-e>",  run = "move 999",  desc = "Move to the EOL" },
+	{ on = "<Home>", run = "move -999", desc = "Move to the BOL" },
+	{ on = "<End>",  run = "move 999",  desc = "Move to the EOL" },
+
+]
+
+[confirm]
+
+prepend_keymap = [
+	{ on = "i", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "e", run = "arrow 1",  desc = "Move cursor down" },
+]
+
+[completion]
+
+prepend_keymap = [
+	{ on = "<A-i>", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "<A-e>", run = "arrow 1",  desc = "Move cursor down" },
+]
+
+[help]
+
+prepend_keymap = [
+	# Navigation
+	{ on = "i", run = "arrow -1", desc = "Move cursor up" },
+	{ on = "e", run = "arrow 1",  desc = "Move cursor down" },
+]
