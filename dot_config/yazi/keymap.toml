@@ -29,9 +29,10 @@ prepend_keymap = [
 	{ on = "<S-Delete>",         run = "remove --permanently",        desc = "Permanently delete selected files" },
 
 	# Zellij integration using shell command
-	{ on = "Z", run = 'shell "zellij edit \"$0\" -d right"', desc = "Open file in Zellij pane to the right" },
-	{ on = "<C-o>", run = 'shell "zellij edit \"$0\" -d down"', desc = "Open file in Zellij pane below" },
+	{ on = "Z", run = 'shell "zellij edit $0 && zellij action rename-pane $(basename $1)"', desc = "Open file in Zellij pane to the right" },
+	{ on = "T", run = 'shell "zellij action go-to-tab-name --create $(basename $1) && zellij action new-pane -- $(zellij edit $0) && zellij action focus-previous-pane && zellij action close-pane && sleep 0.5 && zellij action close-pane"', desc = "Open file in Zellij pane below" },
 	{ on = "<C-f>", run = 'shell "zellij edit \"$0\" -f"', desc = "Open file in floating Zellij pane" },
+
 ]
 
 [tasks]
