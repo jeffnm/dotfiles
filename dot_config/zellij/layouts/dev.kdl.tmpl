@@ -37,21 +37,5 @@ layout {
 
     {{ template "zellij-git-tab.tmpl" . }}
 
-    tab name="Monitoring" {
-        pane split_direction="horizontal" {
-            pane name="Process Monitor" {
-                command "htop"
-            }
-            pane split_direction="vertical" {
-                pane name="Disk Usage" {
-                    command "du"
-                    args "-h" "--max-depth=1" "." 
-                }
-                pane name="Network" {
-                    command "echo"
-                    args "# Network monitoring\n# Try one of these:\n\nss -tulanp  # Open ports\n\nlsof -i     # Network connections\n\nnetstat -tulanp  # Active connections"
-                }
-            }
-        }
-    }
+    {{ template "zellij-monitoring-tab.tmpl" . }}
 }

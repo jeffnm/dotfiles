@@ -20,6 +20,10 @@ The layouts are managed using chezmoi's templating system, which allows for reus
   - Features a prominent Git Shell pane (60% width) with instructions and Git alias reference
   - Includes Status, Diff, Log, and Branch information panes arranged vertically
 
+- **zellij-monitoring-tab.tmpl**: A shared template for the Monitoring tab that provides system monitoring tools
+  - Includes Process Monitor (htop), Disk Usage, and Network monitoring panes
+  - Can be added to any layout to provide consistent monitoring capabilities
+
 To modify layouts:
 
 1. Edit the `.kdl.tmpl` files in the chezmoi source directory
