@@ -1,0 +1,21 @@
+    // Define swap layout for floating panes
+    swap_floating_layout name="floating-panes" {
+        floating_panes max_panes=1 {
+            pane
+        }
+        floating_panes max_panes=2 {
+            pane x=0 width="50%"
+            pane x="50%" width="50%"
+        }
+        floating_panes max_panes=3 {
+            pane x=0 width="33%"
+            pane x="33%" width="34%"
+            pane x="67%" width="33%"
+        }
+        floating_panes max_panes=4 {
+            pane x=0 y=0 width="50%" height="50%"
+            pane x="50%" y=0 width="50%" height="50%"
+            pane x=0 y="50%" width="50%" height="50%"
+            pane x="50%" y="50%" width="50%" height="50%"
+        }
+    }

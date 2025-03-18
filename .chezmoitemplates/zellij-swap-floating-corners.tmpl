@@ -1,0 +1,21 @@
+    // Define corners floating swap layout with panes in the corners of the screen
+    swap_floating_layout name="floating-corners" {
+        floating_panes max_panes=1 {
+            pane
+        }
+        floating_panes max_panes=2 {
+            pane x="5%" y="5%" width="42%" height="90%"
+            pane x="53%" y="5%" width="42%" height="90%"
+        }
+        floating_panes max_panes=3 {
+            pane x="5%" y="5%" width="90%" height="30%"
+            pane x="5%" y="40%" width="42%" height="55%"
+            pane x="53%" y="40%" width="42%" height="55%"
+        }
+        floating_panes max_panes=4 {
+            pane x="5%" y="5%" width="42%" height="42%"
+            pane x="53%" y="5%" width="42%" height="42%"
+            pane x="5%" y="53%" width="42%" height="42%"
+            pane x="53%" y="53%" width="42%" height="42%"
+        }
+    }

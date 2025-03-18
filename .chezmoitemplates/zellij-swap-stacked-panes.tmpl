@@ -1,0 +1,14 @@
+    // Define swap layout for stacking right-side panes in a vertical split layout
+    swap_tiled_layout name="stacked-panes" {
+        tab {
+            pane split_direction="vertical" {
+                pane size="60%" 
+                pane split_direction="horizontal" size="40%" stacked=true {
+                    pane size="25%" 
+                    pane size="25%" 
+                    pane size="25%" 
+                    pane size="25%" 
+                }
+            }
+        }
+    }
