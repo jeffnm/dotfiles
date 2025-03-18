@@ -10,39 +10,27 @@ layout {
         }
     }
 
-    tab name="Notes" focus=true {
-        pane split_direction="vertical" {
-            pane name="Editor" size="70%" focus=true
-            pane split_direction="horizontal" {
-                pane name="Preview" size="50%" {
-                    command "echo"
-                    args "# Preview\n\n- For markdown: glow <filename>\n- For HTML: w3m <filename>\n- For PDF: pdftotext <filename> -"
-                }
-            }
-        }
-    }
-
     tab name="Files" {
-        pane split_direction="vertical" {
-            pane name="File Browser" size="60%" {
-                command "yazi"
-            }
-            pane name="File Info" size="40%" {
-                command "echo"
-                args "# File Operations\n\n- wc -w <file>  # Count words\n- wc -l <file>  # Count lines\n- ls -la  # List all files with details\n- find . -type f -mtime -7  # Files modified in last week"
-            }
+        pane name="File Browser" {
+            command "yazi"
         }
     }
 
     tab name="References" {
-        pane split_direction="horizontal" {
-            pane name="Links" size="50%" {
-                command "echo"
-                args "# Useful References\n\n- Markdown: https://www.markdownguide.org/cheat-sheet/\n- LaTeX: https://wch.github.io/latexsheet/\n- Mermaid: https://mermaid.js.org/syntax/flowchart.html"
+        pane split_direction="vertical" {
+            pane split_direction="horizontal" size="60%" {
+                pane name="Links" size="50%" {
+                    command "echo"
+                    args "# Useful References\n\n- Markdown: https://www.markdownguide.org/cheat-sheet/\n- LaTeX: https://wch.github.io/latexsheet/\n- Mermaid: https://mermaid.js.org/syntax/flowchart.html"
+                }
+                pane name="Tags/Topics" size="50%" {
+                    command "echo"
+                    args "# Tag Management\n\n- grep -r \"#tag\" .  # Find all instances of a tag\n- find . -type f -exec grep -l \"topic\" {} \\;  # Find files containing topic"
+                }
             }
-            pane name="Tags/Topics" size="50%" {
+            pane name="File Info" size="40%" {
                 command "echo"
-                args "# Tag Management\n\n- grep -r \"#tag\" .  # Find all instances of a tag\n- find . -type f -exec grep -l \"topic\" {} \\;  # Find files containing topic"
+                args "# File Operations\n\n- wc -w <file>  # Count words\n- wc -l <file>  # Count lines\n- ls -la  # List all files with details\n- find . -type f -mtime -7  # Files modified in last week"
             }
         }
     }

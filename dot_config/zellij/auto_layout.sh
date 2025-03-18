@@ -85,6 +85,15 @@ zj() {
   local SESSION_NAME=$(basename "$ABS_TARGET_DIR")
   local LAYOUT=$(detect_layout "$ABS_TARGET_DIR")
   
+  # Debug layout variable
+  echo "Layout value: '$LAYOUT'" >&2
+  
+  # Customize session name based on layout - use trimmed comparison
+  if [[ "$(echo "$LAYOUT" | tr -d '[:space:]')" == "notes" ]]; then
+    echo "Detected notes layout, prefixing session name" >&2
+    SESSION_NAME="notes-$SESSION_NAME"
+  fi
+  
   echo "Target directory: $ABS_TARGET_DIR" >&2
   echo "Session name: $SESSION_NAME" >&2
   echo "Selected layout: $LAYOUT" >&2
