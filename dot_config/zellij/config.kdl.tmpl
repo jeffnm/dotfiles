@@ -72,7 +72,7 @@ keybinds {
     }
     scroll {
         bind "Ctrl s" { SwitchToMode "Normal"; }
-        bind "j" { EditScrollback; SwitchToMode "Normal"; }
+        bind "m" { EditScrollback; SwitchToMode "Normal"; }
         bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "e" "Down" { ScrollDown; }
@@ -93,11 +93,11 @@ keybinds {
         bind "Ctrl b" "PageUp" "Left" "n" { PageScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
-        bind "j" { Search "down"; }
+        bind "h" { Search "down"; }
         bind "p" { Search "up"; }
         bind "c" { SearchToggleOption "CaseSensitivity"; }
         bind "w" { SearchToggleOption "Wrap"; }
-        bind "h" { SearchToggleOption "WholeWord"; }
+        bind "f" { SearchToggleOption "WholeWord"; }
     }
     entersearch {
         bind "Ctrl c" "Esc" { SwitchToMode "Scroll"; }
