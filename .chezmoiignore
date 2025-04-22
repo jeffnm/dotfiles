@@ -12,12 +12,9 @@
 {{ end }}
 
 # Factorio
-
-{{ if not .enableFactorio}}
+# Completely ignoring factorio as it changes frequently and is backed up by Steam
 .factorio/
-.factorio/config/
-.factorio/config/config.ini
-{{ end }}
+.factorio/**/*
 
 # Mako
 
