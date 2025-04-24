@@ -5,42 +5,25 @@
 {{- $enableWofi := false -}}
 {{- $enableWaybar := false -}}
 {{- $enableMako := false -}}
-{{- /* Removed factorio variable as it's no longer needed */ -}}
 {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
 {{- $gitPersonalName := promptString "Enter your personal Git name" -}}
 
-{{- if eq .chezmoi.os "darwin" -}}
-{{- $enableHyprland = false -}}
-{{- $gitWorkEmail := promptString "Enter your work Git email" -}}
-{{- $gitWorkName := promptString "Enter your work Git name" }}
-
 [data]
+    gitPersonalEmail = {{ $gitPersonalEmail | quote }}
+    gitPersonalName = {{ $gitPersonalName | quote }}
+    
+    {{- if eq .chezmoi.os "darwin" }}
     enableHyprland = false
     enableWofi = false
     enableWaybar = false
     enableMako = false
-    gitPersonalEmail = {{ $gitPersonalEmail | quote }}
-    gitPersonalName = {{ $gitPersonalName | quote }}
-    gitWorkEmail = {{ $gitWorkEmail | quote }}
-    gitWorkName = {{ $gitWorkName | quote }}
-
-{{- else if eq .chezmoi.os "linux" -}}
-{{- $enableHyprland = true -}}
-{{- $enableWofi = true -}}
-{{- $enableWaybar = true -}}
-{{- $enableMako = true -}}
-{{- $wallpaper1 := promptString "path to wallpaper one" -}}
-{{- $wallpaper2 := promptString "path to wallpaper two" -}}
-{{- /* Removed factorio prompt */ -}}
-
-[data]
+    gitWorkEmail = {{ promptString "Enter your work Git email" | quote }}
+    gitWorkName = {{ promptString "Enter your work Git name" | quote }}
+    {{- else if eq .chezmoi.os "linux" }}
     enableHyprland = true
     enableWofi = true
     enableWaybar = true
     enableMako = true
-    {{- /* Removed factorio setting */ -}}
-    wallpaper1 = {{ $wallpaper1 | quote }}
-    wallpaper2 = {{ $wallpaper2 | quote }}
-    gitPersonalEmail = {{ $gitPersonalEmail | quote }}
-    gitPersonalName = {{ $gitPersonalName | quote }}
-{{- end -}}
+    wallpaper1 = {{ promptString "path to wallpaper one" | quote }}
+    wallpaper2 = {{ promptString "path to wallpaper two" | quote }}
+    {{- end }}
