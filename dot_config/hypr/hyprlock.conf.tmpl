@@ -1,6 +1,6 @@
 background {
     monitor =
-    path = /home/me/someImage.png   # supports png, jpg, webp (no animations, though)
+    path = {{ .hyprlock_wallpaper }}
     color = rgba(25, 20, 20, 1.0)
 
     # all these options are taken from hyprland, see https://wiki.hyprland.org/Configuring/Variables/#blur for explanations
@@ -12,6 +12,7 @@ background {
     vibrancy = 0.1696
     vibrancy_darkness = 0.0
 }
+
 shape {
     monitor =
     size = 360, 60

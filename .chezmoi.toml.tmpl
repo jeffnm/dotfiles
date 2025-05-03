@@ -6,7 +6,7 @@
 {{- $enableWaybar := false -}}
 {{- $enableMako := false -}}
 {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
-{{- $gitPersonalName := promptString "Enter your personal Git name" -}}
+{{- $gitPersonalName := promptString "Enter your personal Git name" }}
 
 [data]
     gitPersonalEmail = {{ $gitPersonalEmail | quote }}
@@ -26,4 +26,11 @@
     enableMako = true
     wallpaper1 = {{ promptString "path to wallpaper one" | quote }}
     wallpaper2 = {{ promptString "path to wallpaper two" | quote }}
+    
+    # Hyprlock specific configuration
+    {{- if eq .chezmoi.hostname "endeavouros" }}
+    hyprlock_wallpaper = {{ promptString "path to hyprlock wallpaper" | quote }}
+    {{- else }}
+    hyprlock_wallpaper = {{ .wallpaper1 }}
+    {{- end }}
     {{- end }}
