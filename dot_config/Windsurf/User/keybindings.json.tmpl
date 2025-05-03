@@ -1,0 +1,126 @@
+[
+    // Unbind default navigation keys
+    {
+        "key": "h",
+        "command": "-cursorLeft",
+        "when": "textInputFocus || editorTextFocus || vim.mode == 'Normal' || vim.mode == 'Visual'"
+    },
+    {
+        "key": "j",
+        "command": "-cursorDown",
+        "when": "textInputFocus || editorTextFocus || vim.mode == 'Normal' || vim.mode == 'Visual'"
+    },
+    {
+        "key": "k",
+        "command": "-cursorUp",
+        "when": "textInputFocus || editorTextFocus || vim.mode == 'Normal' || vim.mode == 'Visual'"
+    },
+    {
+        "key": "l",
+        "command": "-cursorRight",
+        "when": "textInputFocus || editorTextFocus || vim.mode == 'Normal' || vim.mode == 'Visual'"
+    },
+    // Unbind default vim mode keys that we'll remap
+    {
+        "key": "i",
+        "command": "-vim.insert",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    // Colemak-DH navigation
+    {
+        "key": "n",
+        "command": "cursorLeft",
+        "when": "editorTextFocus && !suggestWidgetVisible && vim.mode == 'Normal'"
+    },
+    {
+        "key": "e",
+        "command": "cursorDown",
+        "when": "editorTextFocus && !suggestWidgetVisible && vim.mode == 'Normal'"
+    },
+    {
+        "key": "i",
+        "command": "cursorUp",
+        "when": "editorTextFocus && !suggestWidgetVisible && vim.mode == 'Normal'"
+    },
+    {
+        "key": "o",
+        "command": "cursorRight",
+        "when": "editorTextFocus && !suggestWidgetVisible && vim.mode == 'Normal'"
+    },
+    // Word navigation
+    {
+        "key": "j",
+        "command": "cursorWordEndRight",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    // Search navigation
+    {
+        "key": "h",
+        "command": "extension.vim_n",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    // Mode changes
+    {
+        "key": "k",
+        "command": "extension.vim_insert",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "shift+k",
+        "command": "extension.vim_insert",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    // Line operations
+    {
+        "key": "l",
+        "command": "editor.action.insertLineAfter",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "shift+l",
+        "command": "editor.action.insertLineBefore",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    // Visual mode mappings
+    {
+        "key": "n",
+        "command": "cursorLeftSelect",
+        "when": "editorTextFocus && vim.mode == 'Visual'"
+    },
+    {
+        "key": "e",
+        "command": "cursorDownSelect",
+        "when": "editorTextFocus && vim.mode == 'Visual'"
+    },
+    {
+        "key": "i",
+        "command": "cursorUpSelect",
+        "when": "editorTextFocus && vim.mode == 'Visual'"
+    },
+    {
+        "key": "o",
+        "command": "cursorRightSelect",
+        "when": "editorTextFocus && vim.mode == 'Visual'"
+    },
+    {
+        "key": "j",
+        "command": "cursorWordEndRightSelect",
+        "when": "editorTextFocus && vim.mode == 'Visual'"
+    },
+    {
+        "key": "h",
+        "command": "extension.vim_n",
+        "when": "editorTextFocus && vim.mode == 'Visual'"
+    },
+{{- if eq .chezmoi.os "darwin" }}
+    {
+        "key": "cmd+p",
+        "command": "quickOpen"
+    }
+{{- else if eq .chezmoi.os "linux" }}
+    {
+        "key": "ctrl+p",
+        "command": "quickOpen"
+    }
+{{- end }}
+]
