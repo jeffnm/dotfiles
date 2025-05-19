@@ -44,6 +44,12 @@
 .gitconfig-work
 {{ end }}
 
+# Windsurf keybindings
+{{ if eq .chezmoi.os "darwin" }}
+.config/Windsurf/keybindings.json
+{{ else if eq .chezmoi.os "linux" }}
+.config/Windsurf/User/keybindings.json
+{{ end }}
 
 
 # ALWAYS IGNORED
