@@ -115,12 +115,12 @@
 {{- if eq .chezmoi.os "darwin" }}
     {
         "key": "cmd+p",
-        "command": "quickOpen"
+        "command": "workbench.action.quickOpen"
     }
 {{- else if eq .chezmoi.os "linux" }}
     {
         "key": "ctrl+p",
-        "command": "quickOpen"
+        "command": "workbench.action.quickOpen"
     }
 {{- end }}
 ]
