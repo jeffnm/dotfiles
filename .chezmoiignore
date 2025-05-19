@@ -44,6 +44,8 @@
 .gitconfig-work
 {{ end }}
 
+
+
 # ALWAYS IGNORED
 # Explicitly ignore xmonad
 xmonad/
