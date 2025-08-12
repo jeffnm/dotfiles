@@ -153,6 +153,14 @@ if [ -d "/opt/homebrew/opt/chruby/bin" ]; then
         eval "$cmd() { unset -f $cmd; chruby_init; $cmd \$@ }"
     done
 fi
+
+if [ -d "/opt/homebrew/bin/uv" ]; then
+    eval "$(uv generate-shell-completion zsh)"
+fi
+
+if [ -d "/opt/homebrew/bin/uv" ]; then
+    eval "$(uvx --generate-shell-completion zsh)"
+fi
 {{- end }}
 
 # Shell enhancements - prioritizing prompt initialization
