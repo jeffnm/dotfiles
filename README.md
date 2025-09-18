@@ -11,6 +11,7 @@ My personal configuration files for development environments on macOS and Linux 
 * [Zsh](https://www.zsh.org/) - Required for shell configuration
 * For Linux configurations:
   * [Hyprland](https://hyprland.org/) - Wayland compositor
+  * [Niri](https://github.com/YaLTeR/niri) - Dynamic Wayland tiling window manager (optional)
   * [Waybar](https://github.com/Alexays/Waybar) - Status bar
   * [Mako](https://github.com/emersion/mako) - Notification daemon
   * [Wofi](https://hg.sr.ht/~scoopta/wofi) - Application launcher
@@ -29,12 +30,44 @@ This repo uses [chezmoi](https://www.chezmoi.io/) for most dotfile management
 6. If there were issues, then use `chezmoi apply <filename>` or `chezmoi re-add <filename>` or otherwise resolve the conflict.
 7. If everything is good, run `chezmoi apply` to add all managed files from source.
 
+### Diagrams
+
+Below are draft Mermaid diagrams that explain setup and apply flows. GitHub renders these automatically.
+
+```mermaid
+flowchart TD
+    A[Fresh machine] --> B[Install chezmoi]
+    B --> C[chezmoi init --apply <repo>]
+    C --> D{Templates?}
+    D -- yes --> E[Render .tmpl with host/user vars]
+    D -- no --> F[Copy files as-is]
+    E --> G[Write to $HOME]
+    F --> G
+    G --> H[Post-install steps]
+```
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Chezmoi
+    participant TemplateEngine
+    participant Filesystem
+
+    User->>Chezmoi: chezmoi apply
+    Chezmoi->>TemplateEngine: Render *.tmpl with config & secrets
+    TemplateEngine-->>Chezmoi: Rendered files
+    Chezmoi->>Filesystem: Write to $HOME (respecting state)
+    Filesystem-->>Chezmoi: Result
+    Chezmoi-->>User: Summary/diff
+```
+
 ## Managed files
 
 - [dotfiles](#dotfiles)
   - [Prerequisites](#prerequisites)
   - [Chezmoi](#chezmoi)
     - [Deployment](#deployment)
+    - [Diagrams](#diagrams)
   - [Managed files](#managed-files)
     - [Alacritty](#alacritty)
     - [Atuin](#atuin)
@@ -42,6 +75,7 @@ This repo uses [chezmoi](https://www.chezmoi.io/) for most dotfile management
     - [Gitconfig-work](#gitconfig-work)
     - [Helix](#helix)
     - [hyprland dots](#hyprland-dots)
+    - [Niri](#niri)
     - [mako](#mako)
     - [vimrc](#vimrc)
     - [waybar](#waybar)
@@ -88,6 +122,14 @@ My very personalized Helix config with keymaps for my custom keyboard layout. No
 Configs for hyprland live in hypr. This is my preferred Linux Wayland environment and has family of associated applications that also have configs.
 
 **Path:** `~/.config/hypr/` from `dot_config/hypr/`
+
+### Niri
+
+Dynamic tiling Wayland window manager configuration. Enabled on Linux by default via `enableNiri` in `.chezmoi.toml.tmpl` and conditionally ignored via `.chezmoiignore` when disabled.
+
+Toggle with `enableNiri` in `.chezmoi.toml.tmpl` or set at init time. When enabled, files are applied to `$HOME`.
+
+**Path:** `~/.config/niri/` from `dot_config/niri/`
 
 ### mako
 
