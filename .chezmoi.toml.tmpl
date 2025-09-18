@@ -5,6 +5,7 @@
 {{- $enableWofi := false -}}
 {{- $enableWaybar := false -}}
 {{- $enableMako := false -}}
+{{- $enableNiri := false -}}
 {{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
 {{- $gitPersonalName := promptString "Enter your personal Git name" }}
 
@@ -24,6 +25,7 @@
     enableWofi = true
     enableWaybar = true
     enableMako = true
+    enableNiri = true
     wallpaper1 = {{ promptString "path to wallpaper one" | quote }}
     wallpaper2 = {{ promptString "path to wallpaper two" | quote }}
     

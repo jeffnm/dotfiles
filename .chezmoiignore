@@ -39,6 +39,12 @@
 .config/wofi/style.css
 {{ end }}
 
+# Niri
+{{ if not .enableNiri }}
+.config/niri
+.config/niri/config.kdl
+{{ end }}
+
 # Work-specific configs
 {{ if eq .chezmoi.os "linux" }}
 .gitconfig-work
