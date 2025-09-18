@@ -471,16 +471,16 @@ binds {
     Mod+Ctrl+Up    { move-window-up; }
     Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+N     { move-column-left; }
-    Mod+Ctrl+E     { move-window-down; }
-    Mod+Ctrl+I     { move-window-up; }
+    //Mod+Ctrl+E     { move-window-down; }
+    //Mod+Ctrl+I     { move-window-up; }
     Mod+Ctrl+O     { move-column-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
     Mod+E     { focus-window-or-workspace-down; }
     Mod+I     { focus-window-or-workspace-up; }
-    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
-    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
+    Mod+Ctrl+E     { move-window-down-or-to-workspace-down; }
+    Mod+Ctrl+I     { move-window-up-or-to-workspace-up; }
 
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
@@ -512,19 +512,24 @@ binds {
     // And you can also move a whole workspace to another monitor:
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
     // ...
+    Mod+Ctrl+bracketLeft {move-workspace-to-monitor-next;}
+    Mod+Ctrl+bracketRight {move-workspace-to-monitor-previous;}
+
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
-    Mod+U              { focus-workspace-down; }
-    Mod+Y              { focus-workspace-up; }
+    //Mod+U              { focus-workspace-down; }
+    //Mod+Y              { focus-workspace-up; }
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
-    Mod+Ctrl+U         { move-column-to-workspace-down; }
-    Mod+Ctrl+Y         { move-column-to-workspace-up; }
+    //Mod+Ctrl+E         { move-column-to-workspace-down; }
+    //Mod+Ctrl+I         { move-column-to-workspace-up; }
 
     // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
-    // ...
+    //Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
+    //Mod+Ctrl+Page_Up   { move-window-to-workspace-up; }
+    //Mod+Ctrl+E         { move-window-to-workspace-down; }
+    //Mod+Ctrl+I         { move-window-to-workspace-up; }
 
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
