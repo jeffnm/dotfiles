@@ -45,6 +45,12 @@
 .config/niri/config.kdl
 {{ end }}
 
+# Fuzzel
+{{ if not .enableFuzzel }}
+.config/fuzzel
+.config/fuzzel/fuzzel.ini
+{{ end }}
+
 # Work-specific configs
 {{ if eq .chezmoi.os "linux" }}
 .gitconfig-work

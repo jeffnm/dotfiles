@@ -15,6 +15,7 @@ My personal configuration files for development environments on macOS and Linux 
   * [Waybar](https://github.com/Alexays/Waybar) - Status bar
   * [Mako](https://github.com/emersion/mako) - Notification daemon
   * [Wofi](https://hg.sr.ht/~scoopta/wofi) - Application launcher
+  * [Fuzzel](https://codeberg.org/dnkl/fuzzel) - Wayland application launcher (optional)
 
 ## Chezmoi
 
@@ -80,6 +81,7 @@ sequenceDiagram
     - [vimrc](#vimrc)
     - [waybar](#waybar)
     - [wofi](#wofi)
+    - [Fuzzel](#fuzzel)
     - [Yazi](#yazi)
     - [Zellij](#zellij)
     - [zimrc](#zimrc)
@@ -154,6 +156,14 @@ System bar for Linux. Elements and styling for use with Hyprland.
 Wayland variant on the rofi launcher. Config and styling for my Hyprland.
 
 **Path:** `~/.config/wofi/` from `dot_config/wofi/`
+
+### Fuzzel
+
+Wayland application launcher used with Niri/Hyprland. Enabled on Linux by default via `enableFuzzel` in `.chezmoi.toml.tmpl` and conditionally ignored via `.chezmoiignore` when disabled.
+
+Toggle with `enableFuzzel` in `.chezmoi.toml.tmpl`. When enabled, files are applied to `$HOME`.
+
+**Path:** `~/.config/fuzzel/` from `dot_config/fuzzel/`
 
 ### Yazi
 
