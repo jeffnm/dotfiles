@@ -7,10 +7,27 @@
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
     // "modules-left": ["hyprland/workspaces", "hyprland/scratchpad"],
-    "modules-left": ["hyprland/workspaces"],
+    "modules-left": ["hyprland/workspaces", "niri/workspaces"],
     "modules-center": ["hyprland/window"],
     "modules-right": ["custom/media", "pulseaudio", "network", "cpu", "memory", "temperature", "clock", "tray"],
     // Modules configuration
+    "niri/workspaces": {
+        	"format": "{icon}",
+        	"format-icons": {
+        		// Named workspaces
+        		// (you need to configure them in niri)
+            "terminal": "",
+            "browser": "",
+            "steam":"",
+            "code": "",
+            "media": "",
+            "comms": "",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        	}
+    }
+    }
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": false,
