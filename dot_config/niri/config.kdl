@@ -426,7 +426,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
+    Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
+    Mod+Shift+Return hotkey-overlay-title="Open a Terminal: wezterm" { spawn "wezterm"; }
     // Mod+S hotkey-overlay-title="Run an Application: wofi" { spawn "wofi" "-show" "drun"; }
     Mod+S hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
@@ -487,14 +488,16 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
+    
+    Mod+Tab { focus-monitor-previous; }
     Mod+Shift+Left  { focus-monitor-left; }
     Mod+Shift+Down  { focus-monitor-down; }
     Mod+Shift+Up    { focus-monitor-up; }
     Mod+Shift+Right { focus-monitor-right; }
-    Mod+Shift+N     { focus-monitor-left; }
-    Mod+Shift+E     { focus-monitor-down; }
-    Mod+Shift+I     { focus-monitor-up; }
-    Mod+Shift+O     { focus-monitor-right; }
+    //Mod+Shift+N     { focus-monitor-left; }
+    //Mod+Shift+E     { focus-monitor-down; }
+    //Mod+Shift+I     { focus-monitor-up; }
+    //Mod+Shift+O     { focus-monitor-right; }
 
     Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
@@ -533,8 +536,8 @@ binds {
 
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
-    Mod+Shift+U         { move-workspace-down; }
-    Mod+Shift+Y         { move-workspace-up; }
+    Mod+Shift+E         { move-workspace-down; }
+    Mod+Shift+I         { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
@@ -617,8 +620,8 @@ binds {
     // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+T { maximize-column; }
+    Mod+F { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
