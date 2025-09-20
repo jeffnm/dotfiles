@@ -1,33 +1,46 @@
 {
     // "layer": "top", // Waybar at top layer
-    "layer" : "top",
+    "layer": "top",
     // "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 50, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
     // "modules-left": ["hyprland/workspaces", "hyprland/scratchpad"],
-    "modules-left": ["hyprland/workspaces", "niri/workspaces"],
-    "modules-center": ["hyprland/window"],
-    "modules-right": ["custom/media", "pulseaudio", "network", "cpu", "memory", "temperature", "clock", "tray"],
+    "modules-left": [
+        "hyprland/workspaces",
+        "niri/workspaces"
+    ],
+    "modules-center": [
+        "hyprland/window",
+        "niri/window"
+    ],
+    "modules-right": [
+        "custom/media",
+        "pulseaudio",
+        "network",
+        "cpu",
+        "memory",
+        "temperature",
+        "clock",
+        "tray"
+    ],
     // Modules configuration
     "niri/workspaces": {
-        	"format": "{icon}",
-        	"format-icons": {
-        		// Named workspaces
-        		// (you need to configure them in niri)
+        "format": "{icon}",
+        "format-icons": {
+            // Named workspaces
+            // (you need to configure them in niri)
             "terminal": "",
             "browser": "",
-            "steam":"",
+            "steam": "",
             "code": "",
             "media": "",
             "comms": "",
             "urgent": "",
-            "focused": "",
             "default": ""
-        	}
-    }
-    }
+        }
+    },
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": false,
@@ -35,15 +48,14 @@
         "format-icons": {
             "terminal": "",
             "browser": "",
-            "steam":"",
+            "steam": "",
             "code": "",
             "media": "",
             "comms": "",
             "urgent": "",
-            "focused": "",
             "default": ""
         },
-        "on-click":"activate"
+        "on-click": "activate"
     },
     "keyboard-state": {
         "numlock": true,
@@ -61,7 +73,10 @@
     "hyprland/scratchpad": {
         "format": "{icon} {count}",
         "show-empty": false,
-        "format-icons": ["", ""],
+        "format-icons": [
+            "",
+            ""
+        ],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
     },
@@ -87,7 +102,6 @@
         "state-icons": {
             "playing": "",
             "paused": ""
-            
         },
         "tooltip-format": "MPD (connected)",
         "tooltip-format-disconnected": "MPD (disconnected)"
@@ -122,12 +136,26 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": [
+            "",
+            "",
+            ""
+        ]
     },
     "backlight": {
         // "device": "acpi_video1",
         "format": "{percent}% {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "battery": {
         "states": {
@@ -141,7 +169,13 @@
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "battery#bat2": {
         "bat": "BAT2"
@@ -170,7 +204,11 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": [
+                "",
+                "",
+                ""
+            ]
         },
         "on-click": "pavucontrol"
     },

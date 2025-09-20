@@ -1,6 +1,6 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: Symbols Nerd Font,FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: Symbols Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 13px;
 }
 
@@ -20,12 +20,15 @@ window#waybar {
     transition-duration: .5s;
 }
 
-#window {
-    background-color: @widget-background-color;
+#window, #niri-window {
+    /* Light pastel pink background for window title */
+    background-color: #ffd6e7;
+    color: #402a36;
     margin: 5px;
     padding: 0 10px;
     border-radius: 5px;
 }
+
 window#waybar.empty #window {
     background-color: transparent;
 }
@@ -70,23 +73,24 @@ button:hover {
     box-shadow: inset 0 -3px #ffffff;
 }
 
-#workspaces button {
-    padding: 0 5px;
-    background-color: transparent;
+#workspaces button, #niri-workspaces button {
+    /* Slightly larger and complementary styling */
+    padding: 0 8px;
+    font-size: 14px;
     background-color: @widget-background-color;
-    opacity: 0.6;
+    opacity: 0.75;
     color: #ffffff;
 }
 
-#workspaces button:hover {
+#workspaces button:hover, #niri-workspaces button:hover {
     /* background: rgba(0, 0, 0, 0.2); */
     opacity: 0.9;
 }
 
-#workspaces button.active {
-    /*background-color: #64727D;*/
-    background-color: #000;
-    background-color: @widget-background-color;
+#workspaces button.active, #niri-workspaces button.active {
+    /* Active workspace matches window title pink */
+    background-color: #ffd6e7;
+    color: #402a36;
     opacity: 1;
     box-shadow: inset 0 -3px #ffffff;
 }
@@ -97,7 +101,7 @@ button:hover {
     box-shadow: inset 0 -3px #ffffff;
 }*/
 
-#workspaces button.urgent {
+#workspaces button.urgent, #niri-workspaces button.urgent {
     background-color: #eb4d4b;
 }
 
@@ -240,10 +244,10 @@ label:focus {
 }
 
 #custom-media {
-    /* background-color: #66cc99;
+    background-color: #66cc99;
     color: #2a5c45;
     min-width: 100px;
-    background-color: #64727D; */
+    /* background-color: #64727D; */
 }
 
 #custom-media.custom-spotify {
