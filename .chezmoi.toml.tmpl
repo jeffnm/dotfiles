@@ -1,41 +1,72 @@
 # chezmoi configuration data
 
-{{- /* Global variables */ -}}
+{{- /* OS helpers */ -}}
+{{- $isDarwin := eq .chezmoi.os "darwin" -}}
+{{- $isLinux := eq .chezmoi.os "linux" -}}
+
+{{- /* Disable linux tools by default */ -}}
+{{- /* These are used to conditionally ignore files in .chezmoiignore */ -}}
 {{- $enableHyprland := false -}}
 {{- $enableWofi := false -}}
 {{- $enableWaybar := false -}}
 {{- $enableMako := false -}}
 {{- $enableNiri := false -}}
 {{- $enableFuzzel := false -}}
-{{- $gitPersonalEmail := promptString "Enter your personal Git email" -}}
-{{- $gitPersonalName := promptString "Enter your personal Git name" }}
+
+
+{{- if $isLinux -}}
+  {{- $enableHyprland = true -}}
+  {{- $enableWofi = true -}}
+  {{- $enableWaybar = true -}}
+  {{- $enableMako = true -}}
+  {{- $enableNiri = true -}}
+  {{- $enableFuzzel = true -}}
+{{- end -}}
+
+{{- $gitPersonalEmail := promptStringOnce . "gitPersonalEmail" "Enter your personal Git email" -}}
+{{- $gitPersonalName := promptStringOnce . "gitPersonalName" "Enter your personal Git name" }}
+
+{{- /* Work git identity only on macOS */ -}}
+{{- $gitWorkEmail := "" -}}
+{{- $gitWorkName := "" -}}
+{{- if $isDarwin -}}
+  {{- $gitWorkEmail = promptStringOnce . "gitWorkEmail" "Enter your work Git email" -}}
+  {{- $gitWorkName = promptStringOnce . "gitWorkName" "Enter your work Git name" -}}
+{{- end -}}
+
+{{- /* Wallpapers and hyprlock only on Linux */ -}}
+{{- $wallpaper1 := "" -}}
+{{- $wallpaper2 := "" -}}
+{{- $hyprlock_wallpaper := "" -}}
+{{- if $isLinux -}}
+  {{- $wallpaper1 = promptStringOnce . "wallpaper1" "path to wallpaper one" -}}
+  {{- $wallpaper2 = promptStringOnce . "wallpaper2" "path to wallpaper two" -}}
+  {{- if eq .chezmoi.hostname "endeavouros" -}}
+    {{- $hyprlock_wallpaper = promptStringOnce . "hyprlock_wallpaper" "path to hyprlock wallpaper" -}}
+  {{- else -}}
+    {{- $hyprlock_wallpaper = $wallpaper1 -}}
+  {{- end -}}
+{{- end }}
 
 [data]
     gitPersonalEmail = {{ $gitPersonalEmail | quote }}
     gitPersonalName = {{ $gitPersonalName | quote }}
     
-    {{- if eq .chezmoi.os "darwin" }}
-    enableHyprland = false
-    enableWofi = false
-    enableWaybar = false
-    enableMako = false
-    enableFuzzel = false
-    gitWorkEmail = {{ promptString "Enter your work Git email" | quote }}
-    gitWorkName = {{ promptString "Enter your work Git name" | quote }}
-    {{- else if eq .chezmoi.os "linux" }}
-    enableHyprland = true
-    enableWofi = true
-    enableWaybar = true
-    enableMako = true
-    enableNiri = true
-    enableFuzzel = true
-    wallpaper1 = {{ promptString "path to wallpaper one" | quote }}
-    wallpaper2 = {{ promptString "path to wallpaper two" | quote }}
+    enableHyprland = {{ $enableHyprland }}
+    enableWofi = {{ $enableWofi }}
+    enableWaybar = {{ $enableWaybar }}
+    enableMako = {{ $enableMako }}
+    enableNiri = {{ $enableNiri }}
+    enableFuzzel = {{ $enableFuzzel }}
     
-    # Hyprlock specific configuration
-    {{- if eq .chezmoi.hostname "endeavouros" }}
-    hyprlock_wallpaper = {{ promptString "path to hyprlock wallpaper" | quote }}
-    {{- else }}
-    hyprlock_wallpaper = {{ .wallpaper1 }}
+    {{- if $isDarwin }}
+    gitWorkEmail = {{ $gitWorkEmail | quote }}
+    gitWorkName = {{ $gitWorkName | quote }}
     {{- end }}
+    
+    {{- if $isLinux }}
+    wallpaper1 = {{ $wallpaper1 | quote }}
+    wallpaper2 = {{ $wallpaper2 | quote }}
+    hyprlock_wallpaper = {{ $hyprlock_wallpaper | quote }}
     {{- end }}
+
