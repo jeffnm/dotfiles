@@ -31,6 +31,14 @@ This repo uses [chezmoi](https://www.chezmoi.io/) for most dotfile management
 6. If there were issues, then use `chezmoi apply <filename>` or `chezmoi re-add <filename>` or otherwise resolve the conflict.
 7. If everything is good, run `chezmoi apply` to add all managed files from source.
 
+### Templates & prompts
+
+Many configurations are stored as templates (files ending in `.tmpl`) so that `chezmoi` can render host-specific values when you run `chezmoi apply`. You can inspect the rendered output for any template with `chezmoi execute-template < path/to/file.tmpl` before applying.
+
+Template values come from the data defined in `.chezmoi.toml.tmpl` and answers gathered during initialization. Most user-specific values are collected with `promptStringOnce`, which only asks the first time the key is missing. After you provide a value, it is stored in `chezmoi`'s config file and reused on future runs, so you will not be prompted again.
+
+If you need to change an answer, edit the corresponding entry in `~/.config/chezmoi/chezmoi.toml` (for example with `chezmoi config edit`), or remove the key and run `chezmoi init` to be prompted again for the missing key.
+
 ### Diagrams
 
 Below are draft Mermaid diagrams that explain setup and apply flows. GitHub renders these automatically.
