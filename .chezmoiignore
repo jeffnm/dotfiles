@@ -56,6 +56,12 @@
 .gitconfig-work
 {{ end }}
 
+# Aerospace (macOS only)
+{{ if eq .chezmoi.os "linux" }}
+.config/aerospace
+.config/aerospace/aerospace.toml
+{{ end }}
+
 # Windsurf keybindings
 {{ if eq .chezmoi.os "darwin" }}
 .config/Windsurf/keybindings.json
