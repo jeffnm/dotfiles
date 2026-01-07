@@ -302,6 +302,7 @@ spawn-at-startup "waybar"
 spawn-at-startup "hyprpaper"
 spawn-at-startup "mako"
 spawn-at-startup "steam"
+spawn-at-startup "syncthing"
 spawn-at-startup "playerctld" "daemon"
 
 
