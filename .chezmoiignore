@@ -51,6 +51,12 @@
 .config/fuzzel/fuzzel.ini
 {{ end }}
 
+# wpaperd
+{{ if not .enableWpaperd }}
+.config/wpaperd
+.config/wpaperd/config.toml
+{{ end }}
+
 # Work-specific configs
 {{ if eq .chezmoi.os "linux" }}
 .gitconfig-work
@@ -61,6 +67,7 @@
 .config/aerospace
 .config/aerospace/aerospace.toml
 {{ end }}
+
 
 # Windsurf keybindings
 {{ if eq .chezmoi.os "darwin" }}

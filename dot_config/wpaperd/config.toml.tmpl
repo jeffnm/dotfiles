@@ -1,0 +1,24 @@
+# wpaperd configuration
+# Replaces hyprpaper for compositor-agnostic wallpaper management
+
+[DP-1]
+path = "~/Pictures/wallpapers/monitor1"
+duration = "30m"
+sorting = "random"
+mode = "fit"
+
+[DP-3]
+path = "~/Pictures/wallpapers/monitor2"
+duration = "30m"
+sorting = "random"
+mode = "fit"
+
+# Fallback: If using single images instead of directories, uncomment below
+# and comment out the sections above
+# [DP-1]
+# path = {{ .wallpaper1 }}
+# mode = "fit"
+#
+# [DP-3]
+# path = {{ .wallpaper2 }}
+# mode = "fit"

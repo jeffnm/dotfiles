@@ -12,6 +12,7 @@
 {{- $enableMako := false -}}
 {{- $enableNiri := false -}}
 {{- $enableFuzzel := false -}}
+{{- $enableWpaperd := false -}}
 
 
 {{- if $isLinux -}}
@@ -21,6 +22,7 @@
   {{- $enableMako = true -}}
   {{- $enableNiri = true -}}
   {{- $enableFuzzel = true -}}
+  {{- $enableWpaperd = true -}}
 {{- end -}}
 
 {{- $gitPersonalEmail := promptStringOnce . "gitPersonalEmail" "Enter your personal Git email" -}}
@@ -58,6 +60,7 @@
     enableMako = {{ $enableMako }}
     enableNiri = {{ $enableNiri }}
     enableFuzzel = {{ $enableFuzzel }}
+    enableWpaperd = {{ $enableWpaperd }}
     
     {{- if $isDarwin }}
     gitWorkEmail = {{ $gitWorkEmail | quote }}
