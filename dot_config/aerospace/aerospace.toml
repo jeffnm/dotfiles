@@ -45,14 +45,29 @@ automatically-unhide-macos-hidden-apps = true
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "Teams", "Email", "Browser", "Code", "Notes", "Terminal"]
+persistent-workspaces = ["1", "2", "Teams", "Email", "Browser", "Code", "Notes", "Terminal", "Media"]
 # Full default list: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 # Assign workspaces to monitors
 # See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+#
+# Monitor name patterns (use `aerospace list-monitors` to find names):
+#   - 'T24i-10 (1)' and 'T24i-10 (2)' = desk monitors
+#   - 'Library-219-AppleTV (AirPlay)' = Apple TV
+#   - 'main' = primary monitor (fallback for single-monitor setup)
+#   - 'secondary' = any non-primary monitor
+#
+# Format: workspace = ['pattern1', 'pattern2', ...] tries each in order
+# The first matching connected monitor wins; if none match, workspace goes anywhere.
+
 [workspace-to-monitor-force-assignment]
-    1 = 2  # T24i-10 (1)
-    2 = 1  # T24i-10 (2)
+    # Only force-assign workspaces that should always go to a specific monitor.
+    # Other workspaces are free to be moved with cmd-alt-shift-tab.
+    #
+    # Media -> Apple TV when connected, otherwise falls back to secondary or main
+    Media = ['Library-219-AppleTV (AirPlay)', 'secondary', 'main']
+    # Stub for future 3rd monitors (uncomment and adjust pattern as needed):
+    # 3 = ['<new-monitor-pattern>', 'secondary', 'main']
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -79,6 +94,14 @@ on-mode-changed = []
     outer.bottom =     10
     outer.top =        10
     outer.right =      10
+
+# Per-monitor gap overrides (Apple TV benefits from larger gaps due to viewing distance)
+# Uncomment and adjust when you confirm the pattern works:
+# [gaps.outer]
+#     left = [{ monitor.'Library-219-AppleTV (AirPlay)' = 40 }, 10]
+#     right = [{ monitor.'Library-219-AppleTV (AirPlay)' = 40 }, 10]
+#     top = [{ monitor.'Library-219-AppleTV (AirPlay)' = 40 }, 10]
+#     bottom = [{ monitor.'Library-219-AppleTV (AirPlay)' = 40 }, 10]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -161,6 +184,7 @@ on-mode-changed = []
     cmd-alt-c = 'workspace Code'
     cmd-alt-s = 'workspace Notes'
     cmd-alt-r = 'workspace Terminal'
+    cmd-alt-m = 'workspace Media'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     cmd-alt-shift-1 = 'move-node-to-workspace 1'
@@ -174,6 +198,11 @@ on-mode-changed = []
     cmd-alt-shift-c = 'move-node-to-workspace Code'
     cmd-alt-shift-s = 'move-node-to-workspace Notes'
     cmd-alt-shift-r = 'move-node-to-workspace Terminal'
+    cmd-alt-shift-m = 'move-node-to-workspace Media'
+
+    # See: https://nikitabobko.github.io/AeroSpace/commands#focus-monitor
+    # Cycle focus between monitors (keeps each monitor's visible workspace)
+    cmd-alt-backtick = 'focus-monitor --wrap-around next'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     cmd-alt-tab = 'workspace-back-and-forth'
@@ -181,7 +210,7 @@ on-mode-changed = []
     cmd-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-    cmd-alt-shift-semicolon = 'mode service'
+    cmd-alt-semicolon = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -194,7 +223,14 @@ on-mode-changed = []
     # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
     #s = ['layout sticky tiling', 'mode main']
 
-    cmd-alt-shift-n = ['join-with left', 'mode main']
-    cmd-alt-shift-e = ['join-with down', 'mode main']
-    cmd-alt-shift-i = ['join-with up', 'mode main']
-    cmd-alt-shift-o = ['join-with right', 'mode main']
+    cmd-alt-n = ['join-with left', 'mode main']
+    cmd-alt-e = ['join-with down', 'mode main']
+    cmd-alt-i = ['join-with up', 'mode main']
+    cmd-alt-o = ['join-with right', 'mode main']
+
+# Window rules
+# See: https://nikitabobko.github.io/AeroSpace/guide#window-rules
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+if.window-title-regex-substring = 'Reminder'
+run = 'layout floating'
