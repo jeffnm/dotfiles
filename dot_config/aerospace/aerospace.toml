@@ -230,13 +230,14 @@ on-mode-changed = []
 
 # Window rules
 # See: https://nikitabobko.github.io/AeroSpace/guide#window-rules
-# Tile all Outlook windows by default
-[[on-window-detected]]
-if.app-id = 'com.microsoft.Outlook'
-run = 'layout tiling'
 
 # Except float Outlook reminder popups
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'
 if.window-title-regex-substring = 'Reminder'
 run = 'layout floating'
+
+# Tile all Outlook windows by default
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = 'layout tiling'
