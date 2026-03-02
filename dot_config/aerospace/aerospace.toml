@@ -52,10 +52,14 @@ persistent-workspaces = ["1", "2", "Teams", "Email", "Browser", "Code", "Notes",
 # See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 #
 # Monitor name patterns (use `aerospace list-monitors` to find names):
-#   - 'T24i-10 (1)' and 'T24i-10 (2)' = desk monitors
-#   - 'Library-219-AppleTV (AirPlay)' = Apple TV
-#   - 'main' = primary monitor (fallback for single-monitor setup)
-#   - 'secondary' = any non-primary monitor
+#   - Desk monitors: T24i-10 (1) and T24i-10 (2)
+#   - Apple TV: 'Library-219-AppleTV (AirPlay)'
+#
+# Pattern types:
+#   - 'main' = primary monitor (System Settings → Displays → Use as)
+#   - 'secondary' = non-main monitor (only works with exactly 2 monitors)
+#   - regex string = case-insensitive substring match (e.g. 'Library-219')
+#   - number = monitor sequence from left to right (1, 2, etc.)
 #
 # Format: workspace = ['pattern1', 'pattern2', ...] tries each in order
 # The first matching connected monitor wins; if none match, workspace goes anywhere.
@@ -64,8 +68,8 @@ persistent-workspaces = ["1", "2", "Teams", "Email", "Browser", "Code", "Notes",
     # Only force-assign workspaces that should always go to a specific monitor.
     # Other workspaces are free to be moved with cmd-alt-shift-tab.
     #
-    # Media -> Apple TV when connected, otherwise falls back to secondary or main
-    Media = ['Library-219-AppleTV (AirPlay)', 'secondary', 'main']
+    # Media -> Apple TV when connected, then T24i-10 (2), then secondary (when only 2 screens are available)
+    Media = ['Library-219-AppleTV (AirPlay)', 'T24i-10 \(2\)', 'secondary']
     # Stub for future 3rd monitors (uncomment and adjust pattern as needed):
     # 3 = ['<new-monitor-pattern>', 'secondary', 'main']
 
