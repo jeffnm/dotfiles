@@ -42,6 +42,21 @@ k = "insert_mode"
 K = "insert_at_line_start"
 l = "open_below"
 L = "open_above"
+"C-n" = "jump_view_left"
+"C-e" = "jump_view_down"
+"C-i" = "jump_view_up"
+"C-o" = "jump_view_right"
+
+[keys.normal.C-w]
+n = "jump_view_left"
+e = "jump_view_down"
+i = "jump_view_up"
+o = "jump_view_right"
+s = "hsplit"
+v = "vsplit"
+q = "wclose"
+S = "swap_view_left"  # swap with previous
+w = "rotate_view"
 
 [keys.select]
 n = "extend_char_left"
