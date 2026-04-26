@@ -108,7 +108,10 @@ output "DP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=2294 y=0
+    // Left monitor is vertical
+    position x=960 y=694
+    // Normal Horizontal
+    // position x=2294 y=0
 }
 
 output "DP-3" {
@@ -117,9 +120,13 @@ output "DP-3" {
 
     scale 1.5
 
-    transform "normal"
-
+    // Vertical layout
+    transform "270"
     position x=0 y=0
+
+    // Horizontal Layout
+    // transform "normal"
+    // position x=0 y=0
 }
 
 
@@ -300,6 +307,8 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 spawn-at-startup "hyprpaper"
+spawn-at-startup "lxqt-policykit-agent"
+// spawn-at-startup "wpaperd"
 spawn-at-startup "mako"
 spawn-at-startup "steam"
 spawn-at-startup "syncthing"
@@ -628,6 +637,7 @@ binds {
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
     Mod+T { maximize-column; }
+    Mod+M {maximize-window-to-edges; }
     Mod+F { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
