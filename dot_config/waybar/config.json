@@ -5,14 +5,15 @@
     "height": 50, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
+    "output":"DP-1",
     // Choose the order of the modules
     // "modules-left": ["hyprland/workspaces", "hyprland/scratchpad"],
     "modules-left": [
-        "hyprland/workspaces",
+        //"hyprland/workspaces",
         "niri/workspaces"
     ],
     "modules-center": [
-        "hyprland/window",
+        //"hyprland/window",
         "niri/window"
     ],
     "modules-right": [
