@@ -308,7 +308,6 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "hyprpaper"
 spawn-at-startup "lxqt-policykit-agent"
-// spawn-at-startup "wpaperd"
 spawn-at-startup "mako"
 spawn-at-startup "steam"
 spawn-at-startup "syncthing"
