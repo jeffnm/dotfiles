@@ -1,7 +1,7 @@
-# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
-# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+# A TOML linter such as https://github.com/tombi-toml/tombi can use this schema to validate your config. 
+# If you encounter any problems, please make an issue at https://github.com/yazi-rs/schemas. 
 
+#:schema https://yazi-rs.github.io/schemas/keymap.json 
 
 # See yazi-default.toml for defaults. This config only includes my overrides.
 
@@ -16,6 +16,6 @@ sublimemerge = [
 [open]
 prepend_rules = [
 	# Folder
-	{ name = "*/", use = [ "edit", "windsurf", "sublimemerge", "open", "reveal" ] },
+	{ url = "*/", use = [ "edit", "windsurf", "sublimemerge", "open", "reveal" ] },
   { mime = "text/*", use = [ "edit", "windsurf", "open", "reveal"]}
 ]
